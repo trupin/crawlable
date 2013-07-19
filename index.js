@@ -27,7 +27,7 @@ that.initialize = function (options, callback) {
 
     that.db.initialize(function (err) {
         if (err) return callback(err);
-        that.client = new that.Client(options);
+        that.client = that.Client.create(options);
         that.client.start(callback);
     })
 };
@@ -38,7 +38,7 @@ that.initialize = function (options, callback) {
  * @param res
  */
 that.express = function (req, res) {
-    req.originalUrl = req.originalUrl.replace(/\?.*/, '');
+//    req.originalUrl = req.originalUrl.replace(/\?.*/, '');
 
     var context = {
         rootUrl: 'http://' + req.headers.host.replace('http://', '')
@@ -47,9 +47,21 @@ that.express = function (req, res) {
     if (req.headers['user-agent'] == 'phantom.js')
         return res.render(that._template, context);
 
-    that.client.getStaticHtml(
-        req,
-        req.query.regenerate ? { forceRegeneration: true, waitForRegeneration: true } : {},
+    var options = {
+        pathname: req._parsedUrl.pathname,
+        host: 'http://' + req.headers.host,
+        context: _.extend(
+            req.query || {},
+            req.params || {},
+            req.body || {}
+        )
+    };
+    if (req.query.regenerate) {
+        options.forceRegeneration = true;
+        options.waitForRegeneration = true;
+    }
+
+    that.client.getStaticHtml(options,
         function (err, page) {
             if (err) console.log(err);
             context.staticHtml = err ? '' : page.get('html');
@@ -57,8 +69,3 @@ that.express = function (req, res) {
         }
     );
 };
-
-/**
- * Exports the Handlebars module, in order to be able to register new helpers, etc...
- */
-that.Handlebars = require('handlebars');

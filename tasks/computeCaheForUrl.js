@@ -11,7 +11,7 @@ var async = require('async');
 
 var db = require('../lib/db.js'),
     config = require('../config.js'),
-    staticable = require('../lib/staticable.js');
+    solidify = require('solidify').create();
 
 var stack = [], nProcesses = 0;
 
@@ -32,7 +32,7 @@ var handler = function () {
                             });
                         },
                         function (model, next) {
-                            stdout = staticable.compile(stdout);
+                            stdout = solidify.compile(stdout);
                             if (!model)
                                 return db.pages.post({ url: o.task.url, html: stdout }, next);
                             model.set('luts', +new Date());
