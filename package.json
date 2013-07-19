@@ -1,6 +1,7 @@
 {
     "name": "crawlable",
     "version": "0.0.1",
+    "main": "./index.js",
     "dependencies": {
         "eventemitter2": ">=0.4.12",
         "underscore": ">=1.5.1",
@@ -13,6 +14,12 @@
     },
     "scripts": {
         "start": "node crawlable.js"
-    }
+    },
+    "people":{
+        "author":{
+            "name":"Theophane Rupin",
+            "email":"theophane.rupin@gmail.com"
+        }
+    },
 }
 
