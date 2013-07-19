@@ -1,5 +1,5 @@
 {
-    "name": "crawlable.js",
+    "name": "crawlable",
     "version": "0.0.1",
     "dependencies": {
         "eventemitter2": ">=0.4.12",
