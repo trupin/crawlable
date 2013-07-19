@@ -11,9 +11,6 @@
         "handlebars": ">=1.0.12",
         "request": ">=2.22.0"
     },
-    "engines": {
-        "node": "0.10.13"
-    },
     "scripts": {
         "start": "node crawlable.js"
     }
