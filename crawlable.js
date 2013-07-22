@@ -11,8 +11,6 @@ var argv = require('optimist')
     .usage('Usage: node crawlable.js -dbHost [ip] -dbPort [num] -mqDbName [string] -mqCollectionName [string]')
     .argv;
 
-global._errors = require('./lib/error.js');
-
 var MQ = require('mongomq').MongoMQ,
     async = require('async');
 
