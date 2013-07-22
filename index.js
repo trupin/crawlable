@@ -38,8 +38,6 @@ that.initialize = function (options, callback) {
  * @param res
  */
 that.express = function (req, res) {
-//    req.originalUrl = req.originalUrl.replace(/\?.*/, '');
-
     var context = {
         rootUrl: 'http://' + req.headers.host.replace('http://', '')
     };
