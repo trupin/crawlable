@@ -8,7 +8,7 @@
  * A very simple wrapper for the client side rendering.
  * @type {Function}
  */
-var Render = module.exports = function (options) {
+var Renderer = module.exports = function () {
     // this userAgent must set be when visiting the pages, otherwise clients cannot know its a crawlable client.
     this.userAgent = 'crawlable';
 };
@@ -21,6 +21,6 @@ var Render = module.exports = function (options) {
  * @param url
  * @param callback
  */
-Render.prototype.run = function (url, callback) {
+Renderer.prototype.run = function (args, callback) {
     callback(new Error('Not implemented, you need to overload the Render class'));
 };

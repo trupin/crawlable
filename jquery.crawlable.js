@@ -5,7 +5,7 @@
  */
 
 (function ($) {
-    var isPhantom = navigator.userAgent == 'phantom.js';
+    var isPhantom = navigator.userAgent == 'phantom.js'; // TODO make it dynamic
 
     /**
      * Crawlable loader jQuery plugin

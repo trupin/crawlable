@@ -8,7 +8,8 @@ var _ = require('lodash'),
     async = require('async'),
     cluster = require('./cluster.js');
 
-var Cache = require('./cache.js');
+var Cache = require('./cache.js'),
+    Renderer = require('./renderer.js');
 
 var processing = 0;
 
@@ -35,6 +36,12 @@ var Processor = module.exports = function (options) {
     if (!(this._cache instanceof Cache))
         throw new Error("The field 'cache' needs to be a Cache instance.");
 
+    options.Renderer = _.isFunction(options.Renderer) ? options.Renderer : Renderer;
+    options.rendererOptions = _.isObject(options.rendererOptions) ? options.rendererOptions : {};
+    this._renderer = new options.Renderer(options.rendererOptions);
+    if (!(this._renderer instanceof Renderer))
+        throw new Error("The field 'renderer' needs to be a Renderer instance.");
+
     processing += 1;
 };
 
@@ -43,7 +50,7 @@ Processor.create = function (options) {
 };
 
 Processor.prototype.start = function (callback) {
-    cluster.registerTask();
+    cluster.registerTask('render', this._renderer.run);
     cluster.start();
     this._cache.start(callback);
 };
@@ -62,6 +69,6 @@ Processor.prototype.stop = function (callback) {
     async.series(fns, callback);
 };
 
-Processor.prototype.computeHtml = function (pathname, callback) {
-
+Processor.prototype.render = function (pathname, callback) {
+    cluster.exec('render', { pathname: pathname }, callback);
 };
