@@ -14,8 +14,7 @@ var argv = require('optimist')
 var MQ = require('mongomq').MongoMQ,
     async = require('async');
 
-var tasks = require('./lib/tasks.js'),
-    taskProcessor = require('./lib/taskProcessor.js'),
+var taskProcessor = require('./lib/taskProcessor.js'),
     cache = require('./lib/db.js');
 
 var options = {
@@ -40,22 +39,3 @@ mq.on('task', function (err, task, next) {
     next();
 });
 
-cache.initialize(function (err) {
-    if (err)
-        return console.log(err);
-    async.waterfall([
-        function (next) {
-            persistence.Collection.db.dropCollection(config.db.mq.collection, function () {
-                next(null);
-            });
-        },
-        function (next) {
-            mq.start(next);
-        }
-    ], function (err) {
-        if (err)
-            return console.log(err);
-        console.log('Server started. Waiting for a task to execute.');
-    });
-
-});

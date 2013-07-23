@@ -6,7 +6,7 @@
 
 var that = exports;
 
-var _ = require('underscore');
+var _ = require('lodash');
 
 var throwIfMissing = require('./lib/tools.js').throwIfMissing;
 

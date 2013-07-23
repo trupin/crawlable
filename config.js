@@ -20,16 +20,6 @@ module.exports = {
             collection: 'sessions'
         }
     },
-//    mongoMQ: {
-//        databaseName: 'crawlable',
-//        queueCollection: 'tasks-channel',
-//        autoStart: false
-//    },
-//    cache: {
-//        databaseName: 'crawlable',
-//        collectionName: 'pages',
-//        ttl: 30 // seconds
-//    },
     env: 'prod', // dev || prod
     host: 'http://localhost:3001'
 };
