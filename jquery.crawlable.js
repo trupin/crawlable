@@ -25,11 +25,10 @@
         that.$context = $(options.context || 'div');
         that.$context.hide();
 
-        that.on('app:load', function () {
-            console.log('fully loaded');
-            $('body').append('<div id="app-fully-loaded"></div>');
-        });
         if (isPhantom) {
+            that.on('app:load', function () {
+                $('body').append('<div id="app-fully-loaded"></div>');
+            });
         }
         else {
             that.on('app:load', function () {
