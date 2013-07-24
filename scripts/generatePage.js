@@ -5,16 +5,19 @@
  */
 
 var casper = require('casper').create({
-    verbose: false,
-    logLevel: "debug",
+//    verbose: true,
+//    logLevel: "error",
+//    exitOnError: true,
     onError: function (self, m) {
-        console.log('FATAL:' + m);
+        console.log(m);
         self.exit();
     },
     pageSettings: {
         loadImage: false,
         loadPlugins: false,
-        userAgent: 'phantom.js'
+        userAgent: 'crawlable',
+        username: 'crawlable',
+        password: 'crawlable'
     }
 });
 

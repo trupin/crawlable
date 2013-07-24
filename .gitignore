@@ -16,3 +16,5 @@ npm-debug.log
 .idea
 .idea_modules
 node_modules
+
+.utils
