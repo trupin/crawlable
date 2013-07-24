@@ -15,8 +15,8 @@ var numCPUs = require('os').cpus().length,
 var tasks = {};
 var interrupted = false;
 
-exports.registerTask = function (name, task) {
-    tasks[name] = task;
+exports.registerTask = function (name, fn) {
+    tasks[name] = { fn: fn };
 };
 
 var masterStart = function () {
@@ -24,6 +24,7 @@ var masterStart = function () {
         var worker = cluster.fork();
         listeners.push(worker);
         worker.on('message', function (task) {
+            if (task.error) task.error = new Error(task.error);
             nexts[this.id](task.error, task.error ? null : task.result);
             delete nexts[this.id];
 
@@ -42,7 +43,7 @@ var masterStart = function () {
 var workerStart = function () {
     process.on('message', function (task) {
         var next = function (err, res) {
-            task.error = err;
+            task.error = err instanceof Error ? err.message.trim() : err;
             task.result = res;
             process.send(task);
         };
@@ -65,7 +66,7 @@ exports.exec = function (name, args, next) {
     if (interrupted) return;
     var task = tasks[name];
     if (!tasks[name])
-        throw new Error('Unknown task.');
+        throw new Error('Unknown task, maybe you forgot to register it before starting.');
     if (!_.isFunction(task.fn))
         throw new Error('Missing the "fn" attribute for the task "' + name + '"');
 

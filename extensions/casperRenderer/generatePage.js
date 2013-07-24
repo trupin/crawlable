@@ -16,8 +16,8 @@ var casper = require('casper').create({
         loadImage: false,
         loadPlugins: false,
         userAgent: 'crawlable',
-        username: 'crawlable',
-        password: 'crawlable'
+//        username: 'crawlable',
+//        password: 'crawlable'
     }
 });
 

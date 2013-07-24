@@ -27,7 +27,8 @@ Cache.errors = {
  */
 Cache.prototype.start = function (callback) {
     this._data = {};
-    callback(null);
+    if (_.isFunction(callback))
+        callback(null);
 };
 
 /**
@@ -35,7 +36,8 @@ Cache.prototype.start = function (callback) {
  * @param callback
  */
 Cache.prototype.stop = function (callback) {
-    callback(null);
+    if (_.isFunction(callback))
+        callback(null);
 };
 
 /**

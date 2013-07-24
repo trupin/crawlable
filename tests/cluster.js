@@ -6,10 +6,8 @@
 
 c = require('./../lib2/cluster.js');
 
-c.registerTask('test', {
-    fn: function (args, next) {
-        next(null, args.id);
-    }
+c.registerTask('test', function (args, next) {
+    next(null, args.id);
 });
 c.start();
 var id = 0;

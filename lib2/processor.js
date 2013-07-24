@@ -30,7 +30,7 @@ var Processor = module.exports = function (options) {
         throw new Error("The field 'host' is required.");
 
     options.Cache = _.isFunction(options.Cache) ? options.Cache : Cache;
-    options.cacheOptions = _isObject(options.cacheOptions) ? options.cacheOptions : {};
+    options.cacheOptions = _.isObject(options.cacheOptions) ? options.cacheOptions : {};
 
     this._cache = new options.Cache(options.cacheOptions);
     if (!(this._cache instanceof Cache))
@@ -38,6 +38,8 @@ var Processor = module.exports = function (options) {
 
     options.Renderer = _.isFunction(options.Renderer) ? options.Renderer : Renderer;
     options.rendererOptions = _.isObject(options.rendererOptions) ? options.rendererOptions : {};
+    options.rendererOptions = _.defaults(options.rendererOptions, { host: options.host });
+
     this._renderer = new options.Renderer(options.rendererOptions);
     if (!(this._renderer instanceof Renderer))
         throw new Error("The field 'renderer' needs to be a Renderer instance.");
@@ -50,7 +52,7 @@ Processor.create = function (options) {
 };
 
 Processor.prototype.start = function (callback) {
-    cluster.registerTask('render', this._renderer.run);
+    cluster.registerTask('render', _.bind(this._renderer.run, this._renderer));
     cluster.start();
     this._cache.start(callback);
 };
@@ -69,6 +71,6 @@ Processor.prototype.stop = function (callback) {
     async.series(fns, callback);
 };
 
-Processor.prototype.render = function (pathname, callback) {
-    cluster.exec('render', { pathname: pathname }, callback);
+Processor.prototype.render = function (route, callback) {
+    cluster.exec('render', { route: route }, callback);
 };
