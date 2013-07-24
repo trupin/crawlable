@@ -9,7 +9,7 @@ var child_process = require('child_process'),
     _ = require('lodash'),
     async = require('async');
 
-var Renderer = require('../../lib2/renderer.js');
+var Renderer = require('../../lib/renderer.js');
 
 var CasperRenderer = module.exports = function (options) {
 

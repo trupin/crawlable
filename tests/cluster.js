@@ -4,7 +4,7 @@
  * Time: 4:02 PM
  */
 
-c = require('./../lib2/cluster.js');
+c = require('../lib/cluster.js');
 
 c.registerTask('test', function (args, next) {
     next(null, args.id);

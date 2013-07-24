@@ -5,19 +5,16 @@
  */
 
 var casper = require('casper').create({
-//    verbose: true,
-//    logLevel: "error",
-//    exitOnError: true,
+    verbose: false,
+    logLevel: "debug",
     onError: function (self, m) {
-        console.log(m);
+        console.log('FATAL:' + m);
         self.exit();
     },
     pageSettings: {
         loadImage: false,
         loadPlugins: false,
-        userAgent: 'crawlable',
-//        username: 'crawlable',
-//        password: 'crawlable'
+        userAgent: 'crawlable'
     }
 });
 
@@ -27,6 +24,10 @@ casper.waitForSelector('#app-fully-loaded');
 
 casper.then(function () {
     this.echo(this.getHTML('#app'));
+});
+
+casper.then(function () {
+    this.exit();
 });
 
 casper.run();
