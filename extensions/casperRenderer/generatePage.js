@@ -18,6 +18,10 @@ var casper = require('casper').create({
     }
 });
 
+//casper.on('remote.message', function(message) {
+//    console.log(message);
+//});
+
 casper.start(casper.cli.get('url'));
 
 casper.waitForSelector('#app-fully-loaded');
