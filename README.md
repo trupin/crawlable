@@ -5,7 +5,9 @@ A way to make your web application crawlable, so it can be well referenced on th
 
 Install dependencies
 --------------------
-* Python 2.6 or better
+* node
+* npm
+* python
 
 Install
 -------
