@@ -8,7 +8,7 @@ var casper = require('casper').create({
     verbose: false,
     logLevel: "debug",
     onError: function (self, m) {
-        console.log('FATAL:' + m);
+        console.log(m);
         self.exit();
     },
     pageSettings: {

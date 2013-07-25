@@ -12,18 +12,12 @@ var child_process = require('child_process'),
 var Renderer = require('../../lib/renderer.js');
 
 var CasperRenderer = module.exports = function (options) {
-
     this._paths = {
         phantomjs: __dirname + '/../../.utils/phantomjs/bin/',
         casperjs: __dirname + '/../../.utils/casperjs/bin/casperjs',
         script: __dirname + '/generatePage.js'
     };
-
-    this.options = options = _.cloneDeep(options || {});
-    if (!_.isString(options.host))
-        throw new Error('The required field "host" is missing.');
-
-    Renderer.apply(this, options);
+    Renderer.call(this, options);
 };
 
 util.inherits(CasperRenderer, Renderer);
@@ -31,12 +25,16 @@ util.inherits(CasperRenderer, Renderer);
 CasperRenderer.prototype.run = function (args, callback) {
     if (!_.isString(args.route))
         return callback(new Error('The required argument "route" is missing.'));
+    args.host = _.isString(args.host) ? args.host :
+        _.isString(this.options.host) ? this.options.host : null;
+    if (!args.host)
+        return callback(new Error('The "host" argument or option is required.'));
 
     var env = { PATH: process.env.PATH + ':' + this._paths.phantomjs };
     var cmd = [
         this._paths.casperjs,
         this._paths.script,
-        '--url=' + this.options.host + args.route
+        '--url=' + args.host + args.route
     ].join(' ');
 
     return child_process.exec(cmd, { env: env },
