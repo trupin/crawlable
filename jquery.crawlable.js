@@ -5,7 +5,7 @@
  */
 
 (function ($) {
-    var isCrawlable = navigator.userAgent == 'crawlable'; // TODO make it dynamic
+    $.isCrawlable = navigator.userAgent == 'crawlable'; // TODO make it dynamic
 
     /**
      * Crawlable loader jQuery plugin
@@ -25,7 +25,7 @@
         that.$context = $(options.context || 'div');
         that.$context.hide();
 
-        if (isCrawlable) {
+        if ($.isCrawlable) {
             that.on('app:load', function () {
                 $('body').append('<div id="app-fully-loaded"></div>');
             });
