@@ -19,7 +19,8 @@
 
         options.wait = typeof options.wait == 'number' ? options.wait : 250;
         options.interval = typeof options.interval == 'number' ? options.interval : 20;
-        options.context = typeof options.context == 'string' ? '<div>' + options.context + '</div>' : '<div></div>';
+        options.context = (typeof options.context == 'string' && !options.context.indexOf('<')) ?
+            '<div>' + options.context + '</div>' : '<div></div>';
 
         var $context = $(options.context);
 
@@ -27,6 +28,7 @@
             throw new Error('Couldn\'t fetch the context.');
 
         if ($.isCrawlable) {
+            that.html($context.html());
             that.on('app:load', function () {
                 $('body').append('<div id="app-fully-loaded"></div>');
             });
@@ -34,10 +36,11 @@
         else {
             var jqInitFn = $.fn.init;
             that.on('app:load', function () {
+                $.fn.init = jqInitFn;
+                // merge the static context with the app context
                 that.html($context.children());
                 $context.remove();
-
-                $.fn.init = jqInitFn;
+                // set the old fn.init function
             });
             // overload jquery in order to always use the app context and not window.
             $.fn.init = function (selector, context) {
