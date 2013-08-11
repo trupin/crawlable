@@ -1,6 +1,7 @@
 #! /bin/sh
 
 echo "cleaning ..."
+mkdir -p .data
 rm -rf .utils
 mkdir -p .utils
 rm -rf node_modules

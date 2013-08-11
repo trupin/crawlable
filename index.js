@@ -11,5 +11,5 @@ exports.renderers = {
 };
 
 exports.caches = {
-    Redis: require('./extensions/redisCache.js')
+    NeDb: require('./extensions/nedbCache.js')
 };
