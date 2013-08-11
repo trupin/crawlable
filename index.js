@@ -13,3 +13,5 @@ exports.renderers = {
 exports.caches = {
     NeDb: require('./extensions/nedbCache.js')
 };
+
+exports.Solidify = require('solidify');
