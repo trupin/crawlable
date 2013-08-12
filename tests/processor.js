@@ -8,7 +8,7 @@ var Processor = require('../lib/processor.js');
 
 var proc = Processor.create({
     host: 'http://localhost:3001',
-    Renderer: require('../extensions/casperRenderer')
+    Renderer: require('.')
 });
 
 proc.start(function () {

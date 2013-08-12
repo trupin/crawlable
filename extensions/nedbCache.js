@@ -15,7 +15,8 @@ var Cache = module.exports = function (options) {
 
     options = options || {};
 
-    this.filename = options.filename || __dirname + '/../.data/neDbCacheStore';
+    this.filename = _.uniqueId(options.filename || 'neDbCacheStore');
+    this.filename = __dirname + '/../.data/' + this.filename;
     this.db = new Datastore(_.defaults(options, {
         filename: this.filename
     }));
@@ -88,4 +89,14 @@ Cache.prototype.delete = function (id, callback) {
             callback(null, doc);
         }.bind(this));
     }.bind(this));
+};
+
+Cache.prototype.search = function (query, callback) {
+    if (query instanceof RegExp) {
+        this.db.find({ _url: { $regex: query } }, function (err, res) {
+            if (err) return callback(err);
+            callback(null, _.map(res, beforeRetrieve));
+        });
+    }
+    else callback(null, []);
 };
