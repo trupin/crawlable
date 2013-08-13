@@ -15,8 +15,7 @@ var Cache = module.exports = function (options) {
 
     options = options || {};
 
-    this.filename = options.filename || 'neDbCacheStore';
-    this.filename = __dirname + '/../.data/' + this.filename;
+    this.filename = options.filename || (__dirname + '/../.data/neDbCacheStore');
     this.db = new Datastore(_.defaults(options, {
         filename: this.filename
     }));

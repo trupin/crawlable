@@ -39,8 +39,11 @@ CasperRenderer.prototype.run = function (args, callback) {
 
     return child_process.exec(cmd, { env: env },
         function (error, stdout) {
-            if (error)
-                return callback(new Error('CasperJS error: ' + stdout));
+            if (error) {
+                var msg = stdout.match(/\[ERROR- (.*) -ERROR\]/);
+                msg = msg ? msg[1] : 'Unknown';
+                return callback(new Error('CasperJS error: ' + msg));
+            }
             return callback(null, stdout);
         }
     );
