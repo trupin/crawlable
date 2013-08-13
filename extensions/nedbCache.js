@@ -25,7 +25,7 @@ util.inherits(Cache, BaseCache);
 
 Cache.prototype.start = function (callback) {
     this.db.loadDatabase(function (err) {
-        if (err) return callback(err);
+        if (err) return callback(new Error(err.message));
         this.db.ensureIndex({ fieldName: '_url', unique: true }, callback);
     }.bind(this));
 };
@@ -51,7 +51,7 @@ Cache.prototype.create = function (data, callback) {
     data = beforeStore(data._id, _.cloneDeep(data));
     this.emit('create', data);
     this.db.insert(data, function (err, data) {
-        if (err) return callback(err);
+        if (err) return callback(new Error(err.message));
         callback(null, beforeRetrieve(data));
     });
 };
@@ -61,7 +61,7 @@ Cache.prototype.update = function (id, data, callback) {
     this.emit('update', data);
     data = beforeStore(id, data);
     this.db.update({ _url: id }, data, {}, function (err, num) {
-        if (err) return callback(err);
+        if (err) return callback(new Error(err.message));
         if (!num) return callback(BaseCache.errors.NOT_FOUND(id));
         callback(null, beforeRetrieve(data));
     });
@@ -70,9 +70,9 @@ Cache.prototype.update = function (id, data, callback) {
 Cache.prototype.read = function (id, callback) {
 //    console.log('read id --->', id);
     this.db.findOne({ _url: id }, function (err, doc) {
-        if (err) return callback(err);
-        if (!doc) return callback(BaseCache.errors.NOT_FOUND(id));
-        this.emit('read', beforeRetrieve(doc));
+        if (err) return callback(new Error(err.message));
+        if (doc)
+            this.emit('read', beforeRetrieve(doc));
 //        console.log('read result --->', doc);
         callback(null, doc);
     }.bind(this));
@@ -80,9 +80,10 @@ Cache.prototype.read = function (id, callback) {
 
 Cache.prototype.delete = function (id, callback) {
     this.read(id, function (err, doc) {
-        if (err) return callback(err);
+        if (err) return callback(new Error(err.message));
+        if (!doc) return callback(BaseCache.errors.NOT_FOUND(id));
         this.db.remove({ _url: id }, {}, function (err, num) {
-            if (err) return callback(err);
+            if (err) return callback(new Error(err.message));
             if (!num) return callback(BaseCache.errors.NOT_FOUND(id));
             this.emit('delete', doc);
             callback(null, doc);
