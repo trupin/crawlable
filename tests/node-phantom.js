@@ -12,9 +12,12 @@ phantom.create(function (ph) {
         var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3000,
             start = new Date().getTime(),
             condition = false,
+            runningTest = false,
             interval = setInterval(function () {
-                if ((new Date().getTime() - start < maxtimeOutMillis) && !condition) {
+                if ((new Date().getTime() - start < maxtimeOutMillis) && !condition && !runningTest) {
+                    runningTest = true;
                     testFx(function (result) {
+                        runningTest = false;
                         condition = result;
                         if (condition) {
                             onReady(null);
@@ -26,9 +29,8 @@ phantom.create(function (ph) {
                     onReady(new Error('Timeout elapsed.'));
                     clearInterval(interval);
                 }
-            }, 250); //< repeat check every 250ms
+            }, 50);
     };
-
 
     ph.createPage(function (page) {
         page.set('settings', {

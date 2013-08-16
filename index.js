@@ -7,11 +7,11 @@
 exports.create = require('./lib/processor.js').create;
 
 exports.renderers = {
-    Casper: require('./extensions/casperRenderer'),
-    Phantom: require('./extensions/phantomRenderer')
+    'default': require('./extensions/defaultRenderer.js')
 };
 
 exports.caches = {
+    'default': require('./lib/cache.js'),
     NeDb: require('./extensions/nedbCache.js')
 };
 
