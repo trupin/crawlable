@@ -18,9 +18,9 @@ var casper = require('casper').create({
     }
 });
 
-//casper.on('remote.message', function(message) {
-//    console.log(message);
-//});
+casper.on('remote.message', function(message) {
+    this.echo(message);
+});
 
 casper.start(casper.cli.get('url'));
 

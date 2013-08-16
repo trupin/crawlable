@@ -7,7 +7,8 @@
 exports.create = require('./lib/processor.js').create;
 
 exports.renderers = {
-    Casper: require('./extensions/casperRenderer')
+    Casper: require('./extensions/casperRenderer'),
+    Phantom: require('./extensions/phantomRenderer')
 };
 
 exports.caches = {
