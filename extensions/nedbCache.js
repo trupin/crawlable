@@ -16,9 +16,12 @@ var Cache = module.exports = function (options) {
     options = options || {};
 
     this.filename = options.filename || (__dirname + '/../.data/neDbCacheStore');
-    this.db = new Datastore(_.defaults(options, {
-        filename: this.filename
-    }));
+
+    var opts = _.defaults(options, { filename: this.filename });
+//    if (!opts.inMemoryOnly)
+//	opts = _.omit(opts, 'inMemoryOnly');
+
+    this.db = new Datastore(opts);
 };
 
 util.inherits(Cache, BaseCache);
@@ -26,7 +29,10 @@ util.inherits(Cache, BaseCache);
 Cache.prototype.start = function (callback) {
     this.db.loadDatabase(function (err) {
         if (err) return callback(new Error(err.message));
-        this.db.ensureIndex({ fieldName: '_url', unique: true }, callback);
+        this.db.ensureIndex({ fieldName: '_url', unique: true }, function (err) {
+            if (err) return callback(new Error(err.message));
+            callback(null);
+        });
     }.bind(this));
 };
 
