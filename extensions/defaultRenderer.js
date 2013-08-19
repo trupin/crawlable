@@ -12,36 +12,42 @@ var BaseRenderer = require('../lib/renderer.js');
 
 var Renderer = module.exports = function (options) {
     BaseRenderer.call(this, options);
+
+    this._timeout = (_.isNumber(options.timeout) ? options.timeout : 5) * 1000;
 };
 
 util.inherits(Renderer, BaseRenderer);
 
-var waitFor = function (testFx, onReady, timeOutMillis) {
-    var maxtimeOutMillis = timeOutMillis ? timeOutMillis : 3000,
+Renderer.prototype.waitFor = function (testFx, onReady) {
+    var that = this,
         start = new Date().getTime(),
         condition = false,
         runningTest = false,
         interval = setInterval(function () {
-            if ((new Date().getTime() - start < maxtimeOutMillis) && !condition && !runningTest) {
-                runningTest = true;
-                testFx(function (result) {
-                    runningTest = false;
-                    condition = result;
-                    if (condition) {
-                        onReady(null);
-                        clearInterval(interval);
-                    }
-                });
+            if ((new Date().getTime() - start < that._timeout)) {
+                if (!runningTest) {
+                    runningTest = true;
+                    testFx(function (result) {
+                        if (result) {
+                            onReady(null);
+                            clearInterval(interval);
+                        }
+                        else {
+                            runningTest = false;
+                            condition = !!result;
+                        }
+                    });
+                }
             }
             else if (!condition) {
                 onReady(new Error('Timeout elapsed.'));
                 clearInterval(interval);
             }
-        }, 50);
+        }, 100);
 };
 
 Renderer.prototype.run = function (page, callback) {
-    waitFor(function (callback) {
+    this.waitFor(function (callback) {
         page.evaluate(function () {
             return $('#app-fully-loaded').length;
         }, callback);
@@ -53,5 +59,5 @@ Renderer.prototype.run = function (page, callback) {
         }, function (result) {
             callback(null, result);
         });
-    }, 5000);
+    });
 };
