@@ -49,13 +49,14 @@ Renderer.prototype.waitFor = function (testFx, onReady) {
 Renderer.prototype.run = function (page, callback) {
     this.waitFor(function (callback) {
         page.evaluate(function () {
-            return $('#app-fully-loaded').length;
+            return !!document.getElementById('app-fully-loaded');
         }, callback);
     }, function (error) {
         if (error)
             return callback(error);
         page.evaluate(function () {
-            return $('#app').html();
+            var el = document.getElementById('app');
+            return el ? el.innerHTML : '';
         }, function (result) {
             callback(null, result);
         });

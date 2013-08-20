@@ -6,7 +6,8 @@
 
 var util = require('util'),
     _ = require('lodash'),
-    Datastore = require('nedb');
+    Datastore = require('nedb'),
+    async = require('async');
 
 var BaseCache = require('../lib/cache.js');
 
@@ -27,13 +28,24 @@ var Cache = module.exports = function (options) {
 util.inherits(Cache, BaseCache);
 
 Cache.prototype.start = function (callback) {
-    this.db.loadDatabase(function (err) {
-        if (err) return callback(new Error(err.message));
-        this.db.ensureIndex({ fieldName: '_url', unique: true }, function (err) {
-            if (err) return callback(new Error(err.message));
-            callback(null);
-        });
-    }.bind(this));
+    var that = this;
+    async.waterfall([
+        function (next) {
+            that.db.loadDatabase(function (err) {
+                next(err ? new Error(err.message) : null);
+            });
+        },
+        function (next) {
+            that.db.ensureIndex({ fieldName: '_url', unique: true }, function (err) {
+                next(err ? new Error(err.message) : null);
+            });
+        }
+//        function (next) {
+//            that.db.ensureIndex({ fieldName: '_hash', unique: true }, function (err) {
+//                next(err ? new Error(err.message) : null);
+//            });
+//        }
+    ], callback);
 };
 
 Cache.prototype.stop = function (callback) {
@@ -105,4 +117,13 @@ Cache.prototype.search = function (query, callback) {
         });
     }
     else callback(null, []);
+};
+
+Cache.prototype.readHash = function (hash, callback) {
+    this.db.findOne({ _hash: hash }, function (err, doc) {
+        if (err) return callback(new Error(err.message));
+        if (doc)
+            this.emit('read', beforeRetrieve(doc));
+        callback(null, doc);
+    });
 };
