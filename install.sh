@@ -21,3 +21,9 @@ cd node_modules
 git clone git@github.com:trupin/solidify.git
 cd solidify
 npm install
+
+cd ..
+
+git clone git@github.com:trupin/phantomjs-node.git
+mv phantomjs-node phantom
+cd phantom
