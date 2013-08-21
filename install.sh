@@ -27,3 +27,4 @@ cd ..
 git clone git@github.com:trupin/phantomjs-node.git
 mv phantomjs-node phantom
 cd phantom
+npm install
