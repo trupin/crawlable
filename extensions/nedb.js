@@ -9,7 +9,7 @@ var util = require('util'),
     Datastore = require('nedb'),
     async = require('async');
 
-var BasePersistence = require('../lib/cache.js');
+var BasePersistence = require('../lib/persistence.js');
 
 var Persistence = module.exports = function (options) {
     BasePersistence.apply(this, arguments);

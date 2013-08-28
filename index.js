@@ -10,9 +10,8 @@ exports.renderers = {
     'default': require('./extensions/defaultRenderer.js')
 };
 
-exports.caches = {
-    'default': require('./lib/cache.js'),
-    NeDb: require('./extensions/nedbCache.js')
+exports.persistences = {
+    'default': require('./extensions/nedb.js')
 };
 
 exports.Solidify = require('solidify');
