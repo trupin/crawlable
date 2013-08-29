@@ -2,7 +2,7 @@
   "name": "crawlable",
   "version": "0.4.0",
   "main": "./index.js",
-  "private": "true",
+  "private": "false",
   "dependencies": {
     "eventemitter2": ">=0.4.12",
     "async": ">=0.2.9",
