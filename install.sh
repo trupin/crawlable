@@ -23,5 +23,5 @@ curl -sL https://github.com/trupin/solidify/archive/1.0.tar.gz | tar -xzf -
 mv solidify-1.0 solidify
 
 cd solidify
-npm install .
+../npm/bin/npm install .
 
