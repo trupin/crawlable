@@ -1,6 +1,6 @@
 {
     "name": "crawlable",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "main": "./index.js",
     "dependencies": {
         "eventemitter2": ">=0.4.12",
