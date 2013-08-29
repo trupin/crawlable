@@ -18,7 +18,9 @@ mv phantomjs-1.9.1-linux-`uname -m` phantomjs
 cd ..
 
 cd node_modules
-git clone git@github.com:trupin/solidify.git
+
+curl -sL https://github.com/trupin/solidify/archive/1.0.tar.gz | tar -xzf -
+mv solidify-1.0 solidify
 
 cd solidify
 npm install .
