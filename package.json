@@ -10,7 +10,9 @@
     "cookie": ">=0.1.0",
     "nedb": ">=0.8.6",
     "randexp": "~0.3.2",
-    "winston": "~0.7.2"
+    "winston": "~0.7.2",
+    "mocha": "~1.12.0",
+    "should": "~1.2.2"
   },
   "people": {
     "author": {

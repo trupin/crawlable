@@ -9,7 +9,8 @@ var util = require('util'),
     Datastore = require('nedb'),
     async = require('async');
 
-var BasePersistence = require('../lib/persistence.js');
+var BasePersistence = require('../lib/persistence.js'),
+    errors = require('../lib/errors.js');
 
 var Persistence = module.exports = function (options) {
     BasePersistence.apply(this, arguments);
@@ -50,7 +51,7 @@ Persistence.prototype.update = function (id, doc, callback) {
     this.emit('update', doc);
     this.db.update({ _id: id }, doc, {}, function (err, num) {
         if (err) return callback(new Error(err.message));
-        if (!num) return callback(BasePersistence.errors.NOT_FOUND(id));
+        if (!num) return callback(new errors.NotFound(id));
         callback(null, doc);
     });
 };
@@ -74,10 +75,10 @@ Persistence.prototype.delete = function (id, callback) {
     var that = this;
     this.read(id, function (err, doc) {
         if (err) return callback(new Error(err.message));
-        if (!doc) return callback(BasePersistence.errors.NOT_FOUND(id));
+        if (!doc) return callback(new errors.NotFound(id));
         that.db.remove({ _id: id }, {}, function (err, num) {
             if (err) return callback(new Error(err.message));
-            if (!num) return callback(BasePersistence.errors.NOT_FOUND(id));
+            if (!num) return callback(new errors.NotFound(id));
             that.emit('delete', doc);
             callback(null, doc);
         });
