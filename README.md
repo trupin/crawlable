@@ -16,4 +16,4 @@ Install
 Example
 -------
 
-See the todos example at this address: https://github.com/trupin/crawlable-todos
+You can check the todos example at this address: https://github.com/trupin/crawlable-todos
