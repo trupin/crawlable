@@ -11,4 +11,4 @@ Install dependencies
 
 Install
 -------
-`./install.sh`
+`npm install crawlable`
