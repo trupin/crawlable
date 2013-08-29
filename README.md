@@ -12,3 +12,8 @@ Install dependencies
 Install
 -------
 `npm install crawlable`
+
+Example
+-------
+
+See the todos example at this address: https://github.com/trupin/crawlable-todos
