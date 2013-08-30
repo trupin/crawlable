@@ -1,8 +1,8 @@
 # Crawlable is a way to render your web application as a static web site
 
 When you develop some cool features on a web project, there is a good chance that you do some ajax requests.
-In the case you are developing a web application with backbone.js for example, you have no choice but to use the ajax
-feature proposed by jQuery.
+In the case you are developing a web application with ```backbone.js``` for example, you have no choice but to use the ajax
+feature proposed by ```jQuery```.
 So you are developing some great stuffs, but if your project needs to be viewed on the web, you will wonder two things:
 
 * how is your work visible by google when it will try to reference it ? (is all the content always available, so it can be interpreted
@@ -14,10 +14,10 @@ By this way, it can give a static cached html to your client, before any javascr
 
 ## How do I use it ?
 
-Crawlable uses phantomjs (http://phantomjs.org/) to render the web page on the server side, but you have no need to install it yourself,
+Crawlable uses ```phantomjs``` (http://phantomjs.org/) to render the web page on the server side, but you have no need to install it yourself,
 the installer take care of it for you.
 
-But, phantomjs uses ```python```. So you should have it installed to make the whole thing work.
+But, ```phantomjs``` uses ```python```. So you should have it installed to make the whole thing work.
 
 Then, install it like this:
 
