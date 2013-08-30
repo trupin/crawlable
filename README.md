@@ -104,12 +104,6 @@ So you would include something like this in your html:
 
 ```
 
-### How do I make my client side javascript compatible ?
-
-```
-
-```
-
 ## Example
 
 * You can check the todos example github: https://github.com/trupin/crawlable-todos
