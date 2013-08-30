@@ -14,4 +14,4 @@ exports.persistences = {
     'default': require('./extensions/nedb.js')
 };
 
-exports.Solidify = require('solidify');
+exports.Solidify = require('crawlable-solidify');
