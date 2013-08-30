@@ -7,11 +7,31 @@ So you are developing some great stuffs, but if your project needs to be viewed 
 
 * how is your work visible by google when it will try to reference it ? (is all the content always available, so it can be interpreted
 by google ?)
-* and how a visitor, who doesn't have javascript support, or who have a pretty slow computer will be able to navigate on it ?
+* and how a visitor who doesn't have javascript support, or who have a slow computer will be able to navigate on it ?
 
-Crawlable is maybe your solution, because it is able to render your dynamic client side stuffs written with javascript, on the server side.
-By this way, it can give a static cached html to your client, before any javascript started to be executed on the web page.
+Crawlable could be your solution ! It is able to render your dynamic client side stuffs written with javascript, on the server side.
+By this way, it can give a static cached html to your client, before any javascript code started to be executed on the web page.
 
+You may say now, "ok, but what if I have cached some dynamic content which could be updated at every time !?".
+
+Crawlable doesn't simply cache html, it uses a module named ```Solidify``` (https://github.com/trupin/solidify) to generate a derived version of your client side templates before storing it. When a client request the server, Crawlable will feed the cached template with some updated data before giving it to you. 
+
+## How does it works ?
+
+Before explaining how all of this can be used, you need to understand how it works a little more deeply.
+
+As you can imagine, there are two sides to consider, the client side and the server side.
+
+So here are the steps Crawlable is going through to compute your final server side rendered html:
+
+* Crawlable demands to generate the cache for a specific page, so it asks to the router if it knows about a specific ```pathname```. If the router says "No !", a 404 HTTP  (not found) error is returned, otherwise, Crawlable continues its work.
+* Crawlable then ask to ```phantomjs``` to render a page with a ```pathname``` for an ```host```. At this time, ```phantomjs``` will query your server, with a special ```user agent```, so Crawlable will now it's not a normal client.
+* The client side javascript is interpreted by ```phantomjs```, and the templates are rendered in a special way, so Crawlable doesn't get some simple html, but a template compiled by ```Solidify```.
+* Now Crawlable has this "solidified" template on the server side, it stores it, in order to be able to quickly refetch it at any time.
+* If a normal client query the same page, Crawlable renders it on the server side, by feeding it with updated data. The "solidified" template actually contains metadata, so Crawlable knows where to fetch these updated data.
+* Then the rendered html can be injected in your web application page, so the final client will be able to see it right after the page has loaded.
+* If the client has a javascript support, so your web application will replace this static html after its loading. If not, the client will simply be able to visit the page as if it was a static web site.
+ 
 ## How do I use it ?
 
 Crawlable uses ```phantomjs``` (http://phantomjs.org/) to render the web page on the server side, but you have no need to install it yourself,
