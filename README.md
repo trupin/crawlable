@@ -45,12 +45,13 @@ At this time, ```Crawlable``` is very convenient to use with the great ```Expres
 As we saw above, ```Crawlable``` is not simply a server side module, but also a client side library.
 
 On the client side, you would use it with the ```JQuery``` plugin named ```jquery.crawlable.js```. This plugin depends on
-the ```Solidify``` plugin named ```jquery.solidify.js```.
+the ```Solidify``` plugin named ```jquery.solidify.js```, which also depends on the ```Handlebars``` template engine and ```JQuery```.
 
 So you would include something like this in your html:
 
 ```
 	<script type="text/javascript" src="/jquery.js"></script>
+	<script type="text/javascript" src="/handlebars.js"></script>
 	<script type="text/javascript" src="/jquery.solidify.js"></script>
 	<script type="text/javascript" src="/jquery.crawlable.js"></script>
 ```
@@ -105,7 +106,9 @@ So you would include something like this in your html:
 
 ### How do I make my client side javascript compatible ?
 
+```
 
+```
 
 ## Example
 
