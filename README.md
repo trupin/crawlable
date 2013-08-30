@@ -21,7 +21,7 @@ But, phantomjs uses ```python```. So you should have it installed to make the wh
 
 Then, install it like this:
 
-	`npm install crawlable --save`
+`npm install crawlable --save`
 
 At this time, Crawlable is very convenient to use with the great Express and Connect modules.
 
