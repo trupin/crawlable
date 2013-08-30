@@ -20,7 +20,7 @@ Crawlable doesn't simply cache html, it uses a module named ```Solidify``` (http
 
 Before explaining how all of this can be used, you need to understand how it works a little more deeply.
 
-So here are the steps Crawlable is going through to compute your final server side rendered html:
+Here are the steps Crawlable is going through to compute your final server side rendered html:
 
 * Crawlable demands to generate the cache for a specific page, so it asks to the router if it knows about a specific ```pathname```. If the router says "No !", a 404 HTTP  (not found) error is returned, otherwise, Crawlable continues its work.
 * Crawlable then asks to ```phantomjs``` to render a page with a ```pathname``` for an ```host```. At this time, ```phantomjs``` will query your server, with a special ```user agent```, so it will now it's not a normal client.
