@@ -15,7 +15,7 @@ By this way, it can give a static cached html to your client, before any javascr
 ## How do I use it ?
 
 Crawlable uses phantomjs (http://phantomjs.org/) to render the web page on the server side, but you have no need to install it yourself,
-the installer take of it for you.
+the installer take care of it for you.
 
 But, phantomjs uses ```python```. So you should have it installed to make the whole thing work.
 
