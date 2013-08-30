@@ -1,6 +1,6 @@
 # Crawlable is a way to render your web application as a static web site
 
-When you develop some cool features on a web project, there is a great chance that you do some ajax requests.
+When you develop some cool features on a web project, there is a good chance that you do some ajax requests.
 In the case you are developing a web application with backbone.js for example, you have no choice but to use the ajax
 feature proposed by jQuery.
 So you are developing some great stuffs, but if your project needs to be viewed on the web, you will wonder two things:
