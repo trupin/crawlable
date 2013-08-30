@@ -23,7 +23,7 @@ Before explaining how all of this can be used, you need to understand how it wor
 So here are the steps Crawlable is going through to compute your final server side rendered html:
 
 * Crawlable demands to generate the cache for a specific page, so it asks to the router if it knows about a specific ```pathname```. If the router says "No !", a 404 HTTP  (not found) error is returned, otherwise, Crawlable continues its work.
-* Crawlable then ask to ```phantomjs``` to render a page with a ```pathname``` for an ```host```. At this time, ```phantomjs``` will query your server, with a special ```user agent```, so Crawlable will now it's not a normal client.
+* Crawlable then asks to ```phantomjs``` to render a page with a ```pathname``` for an ```host```. At this time, ```phantomjs``` will query your server, with a special ```user agent```, so Crawlable will now it's not a normal client.
 * The client side javascript is interpreted by ```phantomjs```, and the templates are rendered in a special way, so Crawlable doesn't get some simple html, but a template compiled by ```Solidify```.
 * Now Crawlable has this "solidified" template on the server side, it stores it, in order to be able to quickly refetch it at any time.
 * If a normal client query the same page, Crawlable renders it on the server side, by feeding it with updated data. The "solidified" template actually contains metadata, so Crawlable knows where to fetch these updated data.
