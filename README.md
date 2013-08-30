@@ -24,10 +24,10 @@ Here are the steps Crawlable is going through to compute your final server side 
 
 * Crawlable demands to generate the cache for a specific page, so it asks to the router if it knows about a specific ```pathname```. If the router says "No !", a 404 HTTP  (not found) error is returned, otherwise, Crawlable continues its work.
 * Crawlable then asks to ```phantomjs``` to render a page with a ```pathname``` for an ```host```. At this time, ```phantomjs``` will query your server, with a special ```user agent```, so it will now it's not a normal client.
-* The client side javascript is interpreted by ```phantomjs```, and the templates are rendered in a special way, so Crawlable doesn't get some simple html, but a template compiled by ```Solidify```.
+* The client side javascript is interpreted by ```phantomjs```, and the templates are rendered in a special way, so Crawlable doesn't just get some html, rather a template compiled by ```Solidify```.
 * Now Crawlable has this "solidified" template on the server side, it stores it, in order to be able to quickly refetch it at any time.
-* If a normal client queries the same page, Crawlable renders it on the server side, by feeding it with updated data. The "solidified" template actually contains metadata, so Crawlable knows where to fetch these updated data.
-* Then the rendered html can be injected in your web application page, so the final client will be able to see it right after the page has loaded.
+* If a normal client queries the same page, Crawlable renders it on the server side, by feeding it with updated data. The "solidified" template actually contains metadata, so Crawlable knows where to fetch these updated data, with a specific session id if needed, etc...
+* Then, the rendered html can be injected in your web application page, so the final client will be able to see it right after the page has loaded.
 * If the client has a javascript support, your web application will replace this static html after it has loaded. If not, the client will simply be able to visit the page as if it was a static web site. That's why if this client was Google, javascript support activated or not, the content would always be visible to it. So your web application would be referenced in the same conditions than a classic static web site.
  
 ## How do I use it ?
