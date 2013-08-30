@@ -7,7 +7,7 @@ So you are developing some great stuffs, but if your project needs to be viewed 
 
 * how is your work visible by google when it will try to reference it ? (is all the content always available, so it can be interpreted
 by google ?)
-* and how a visitor, who doesn't activated javascript, or who have a pretty slow computer will be able to navigate on it ?
+* and how a visitor, who doesn't have javascript support, or who have a pretty slow computer will be able to navigate on it ?
 
 Crawlable is maybe your solution, because it is able to render your dynamic client side stuffs written with javascript, on the server side.
 By this way, it can give a static cached html to your client, before any javascript started to be executed on the web page.
