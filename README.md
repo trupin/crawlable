@@ -16,4 +16,5 @@ Install
 Example
 -------
 
-You can check the todos example at this address: https://github.com/trupin/crawlable-todos
+You can check the todos example github: https://github.com/trupin/crawlable-todos
+Or visit it deployed at: http://crawlable-todos.herokuapp.com/
