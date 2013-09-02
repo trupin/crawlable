@@ -49,7 +49,7 @@ the ```Solidify``` plugin named ```jquery.solidify.js```, which also depends on 
 
 So you would include something like this in your html:
 
-```
+``` html
 	<script type="text/javascript" src="/jquery.js"></script>
 	<script type="text/javascript" src="/handlebars.js"></script>
 	<script type="text/javascript" src="/jquery.solidify.js"></script>
@@ -60,7 +60,7 @@ So you would include something like this in your html:
 
 Here is the code you could use in your `app.js` file:
 
-```
+``` js
 	var express = require('express'),
 		Crawlable = require('crawlable');
 
@@ -108,7 +108,7 @@ Here is the code you could use in your `app.js` file:
 
 Then, admitting you are using `Handlebars` as a template engine, here is what you could have as `index.html` file:
 
-```
+``` html
 	<html>
 		<head>...</head>
 		<body>
@@ -136,7 +136,7 @@ Then, admitting you are using `Handlebars` as a template engine, here is what yo
 
 What happen now on the client side ? Here is what you could have in your `app.js` file:
 
-```
+``` js
 	// Be sure to use the solidify template engine.
 	Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
         return Backbone.$.solidify(rawTemplate);
@@ -177,7 +177,7 @@ to make it compatible with `Crawlable`, only your templates).
 
 Here is the `Item` template:
 
-```
+``` html
 	<!-- specify the needed request to fetch the data -->
 	{{solidify "/api/items"}}
 	<!-- the same as {{#each}}, but for the server side rendering only (client will ignore it) -->
@@ -189,7 +189,7 @@ Here is the `Item` template:
 
 Now here is the `List` template:
 
-```
+``` html
 	<div>
 		<h1>My list</h1>
 		<div>
