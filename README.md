@@ -58,6 +58,8 @@ So you would include something like this in your html:
 
 ### So, how do I use it on the server side with ```Express``` ?
 
+Here is the code you could use in your `app.js` file:
+
 ```
 	var express = require('express'),
 		Crawlable = require('crawlable');
@@ -104,11 +106,111 @@ So you would include something like this in your html:
 
 ```
 
+Then, admitting you are using `Handlebars` as a template engine, here is what you could have as `index.html` file:
+
+```
+	<html>
+		<head>...</head>
+		<body>
+			<!-- Where you put your static application content at the first place. -->
+			<div id="app">{{{ staticApp }}}</div>
+
+			<!-- JS libraries -->
+            <script type="text/javascript" src="/jquery/jquery.js"></script>
+            <script type="text/javascript" src="/handlebars/handlebars.js"></script>
+            <script type="text/javascript" src="/underscore/underscore.js"></script>
+	        <script type="text/javascript" src="/backbone/backbone.js"></script>
+            <script type="text/javascript" src="/backbone.babysitter/lib/backbone.babysitter.js"></script>
+            <script type="text/javascript" src="/backbone.wreqr/lib/backbone.wreqr.js"></script>
+            <script type="text/javascript" src="/marionette/lib/backbone.marionette.js"></script>
+            <script type="text/javascript" src="/solidify/jquery.solidify.js"></script>
+            <script type="text/javascript" src="/crawlable/jquery.crawlable.js"></script>
+
+            <!-- Application sources -->
+            <script type="text/javascript" src="/app.js"></script>
+		</body>
+	</html>
+```
+
 ### How do I make my client side javascript compatible ?
 
-```
+What happen now on the client side ? Here is what you could have in your `app.js` file:
 
 ```
+	// Be sure to use the solidify template engine.
+	Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
+        return Backbone.$.solidify(rawTemplate);
+    };
+
+	// Create a Marionette application (it could be Backbone.js or whatever you want).
+	var app = new Marionette.Application();
+
+	// Initialize it.
+	app.addInitializer(function () {
+		// do something ...
+	});
+
+	$(document).ready(function () {
+
+		// Initialize your main application anchor with crawlable.
+		// It says to crawlable to wait for the application to be fully loaded, before inject the code
+		// into the <div id="#app">.
+		// The context option is the initial state with which the application should start.
+        $('#app').crawlable({
+            context: '<div class="container-fluid"></div>'
+        });
+
+		// Simply start your application.
+        app.start();
+
+	});
+```
+
+At this point, the peace of code we seen is able to load an application in front of its ```Crawlable``` static part.
+But what if we want to create some dynamic content, and cache it with ```Crawlable```?
+
+Imagine now you want to render a list. You would have a `Collection` and a `View`, rendering an `ItemView` for each
+`Model` of your `Collection`.
+
+By using some `Handlebars` templates, see how you would do (notice there is no need to modify your javascript code
+to make it compatible with `Crawlable`, only your templates).
+
+Here is the `Item` template:
+
+```
+	<!-- specify the needed request to fetch the data -->
+	{{solidify "/api/items"}}
+	<!-- the same as {{#each}}, but for the server side rendering only (client will ignore it) -->
+	{{#solidify-each "this"}}
+		<!-- dereference the field content, will be interpreted on the client and server side -->
+		<li>{ {content} }</li>
+	{{/solidify-each}}
+```
+
+Now here is the `List` template:
+
+```
+	<div>
+		<h1>My list</h1>
+		<div>
+			<!-- Include a template. This is for the server side only, the client simply ignore it -->
+			{{solidify-include "/templates/item.html"}}
+		</div>
+	</div>
+```
+
+As you can see, you just have to respect some extra rules to make your template understandable by `Crawlable`.
+You can see the `Solidify` documentation for details, but here is what you need for now:
+
+* `{{solidify ["method"] "/my/api/route"}}` specifies a request to do when `Crawlable` will need some data to feed the template
+on the server side.
+* `{{solidify-include "/my/template/path"}}` specifies a template to include on the server side only.
+* `{{[#]solidify-helperName}}` calls an helper on the server side only.
+* `{ {[#]helperName} }` calls an helper on the client and server side.
+* `{ {fieldName} }` dereferences a field on the client and server side.
+
+Notice that every other `Handlebars` syntax are available, and all the syntax we saw which are used on the the server side
+only, are completely ignored by `Solidify` on the client side, so it has no influence on your client side original template.
 
 ## Example
 
