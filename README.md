@@ -106,6 +106,7 @@ Here is the code you could use in your `app.js` file:
 
 ```
 
+<<<<<<< HEAD
 Then, admitting you are using `Handlebars` as a template engine, here is what you could have as `index.html` file:
 
 ```
@@ -212,6 +213,8 @@ on the server side.
 Notice that every other `Handlebars` syntax are available, and all the syntax we saw which are used on the the server side
 only, are completely ignored by `Solidify` on the client side, so it has no influence on your client side original template.
 
+=======
+>>>>>>> origin/master
 ## Example
 
 * You can check the todos example github: https://github.com/trupin/crawlable-todos
