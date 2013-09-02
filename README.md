@@ -203,13 +203,13 @@ As you can see, you just have to respect some extra rules to make your template 
 You can see the `Solidify` documentation for details, but here is what you need for now:
 
 * `{{solidify ["method"] "/my/api/route"}}` specifies a request to do when `Crawlable` will need some data to feed the template
-on the server side.
-* `{{solidify-include "/my/template/path"}}` specifies a template to include on the server side only.
-* `{{[#]solidify-helperName}}` calls an helper on the server side only.
-* `{ {[#]helperName} }` calls an helper on the client and server side.
-* `{ {fieldName} }` dereferences a field on the client and server side.
+(on the server side only).
+* `{{solidify-include "/my/template/path"}}` specifies a template to include (on the server side only).
+* `{{[#]solidify-helperName}}` calls an helper (on the server side only).
+* `{ {[#]helperName} }` calls an helper (on the client and server side).
+* `{ {fieldName} }` dereferences a field (on the client and server side).
 
-Notice that every other `Handlebars` syntax are available, and all the syntax we saw which are used on the the server side
+Notice that every other `Handlebars` syntax are available, and all the syntax we saw which are used on the server side
 only, are completely ignored by `Solidify` on the client side, so it has no influence on your client side original template.
 
 ## Example
