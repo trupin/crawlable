@@ -1,51 +1,51 @@
-# ```Crawlable``` is a way to render your web application as a static web site
+# `Crawlable` is a way to render your web application as a static web site
 
 When you develop some cool features on a web project, there is a good chance that you do some ajax requests.
-In the case you are developing a web application with ```backbone.js``` for example, you have no choice but to use the ajax
-feature proposed by ```jQuery```.
+In the case you are developing a web application with `backbone.js` for example, you have no choice but to use the ajax
+feature proposed by `jQuery`.
 So you are developing some great stuffs, but if your project needs to be viewed on the web, you will wonder two things:
 
 * how is your work visible by google when it will try to reference it ? (is all the content always available, so it can be interpreted
 by google ?)
 * and how a visitor who doesn't have javascript support, or who have a slow computer will be able to navigate on it ?
 
-```Crawlable``` could be your solution ! It is able to render your dynamic client side stuffs written with javascript, on the server side.
+`Crawlable` could be your solution ! It is able to render your dynamic client side stuffs written with javascript, on the server side.
 By this way, it can give a static cached html to your client, before any javascript code started to be executed on the web page.
 
 You may say now, "ok, but what if I have cached some dynamic content which could be updated at every time !?".
 
-```Crawlable``` doesn't simply cache html, it uses a module named ```Solidify``` (https://github.com/trupin/solidify) to generate a derived version of your client side templates before storing it. When a client request the server, Crawlable will feed the cached template with some updated data before giving it to you.
+`Crawlable` doesn't simply cache html, it uses a module named `Solidify` (https://github.com/trupin/solidify) to generate a derived version of your client side templates before storing it. When a client request the server, Crawlable will feed the cached template with some updated data before giving it to you.
 
 ## How does it works ?
 
 Before explaining how all of this can be used, you need to understand how it works a little more deeply.
 
-Here are the steps ```Crawlable``` is going through to compute your final server side rendered html:
+Here are the steps `Crawlable` is going through to compute your final server side rendered html:
 
-* ```Crawlable``` demands to generate the cache for a specific page, so it asks to the router if it knows about a specific ```pathname```. If the router says "No !", a 404 HTTP  (not found) error is returned, otherwise, Crawlable continues its work.
-* ```Crawlable``` then asks to ```phantomjs``` to render a page with a ```pathname``` for an ```host```. At this time, ```phantomjs``` will query your server, with a special ```user agent```, so it will now it's not a normal client.
-* The client side javascript is interpreted by ```phantomjs```, and the templates are rendered in a special way, so ```Crawlable``` doesn't just get some html, rather a template compiled by ```Solidify```.
-* Now ```Crawlable``` has this "solidified" template on the server side, it stores it, in order to be able to quickly refetch it at any time.
-* If a normal client queries the same page, ```Crawlable``` renders it on the server side, by feeding it with updated data. The "solidified" template actually contains metadata, so Crawlable knows where to fetch these updated data, with a specific session id if needed, etc...
+* `Crawlable` demands to generate the cache for a specific page, so it asks to the router if it knows about a specific `pathname```. If the router says "No !", a 404 HTTP  (not found) error is returned, otherwise, Crawlable continues its work.
+* `Crawlable` then asks to `phantomjs` to render a page with a `pathname` for an `host`. At this time, `phantomjs` will query your server, with a special `user agent`, so it will now it's not a normal client.
+* The client side javascript is interpreted by `phantomjs`, and the templates are rendered in a special way, so `Crawlable` doesn't just get some html, rather a template compiled by `Solidify`.
+* Now `Crawlable` has this "solidified" template on the server side, it stores it, in order to be able to quickly refetch it at any time.
+* If a normal client queries the same page, `Crawlable` renders it on the server side, by feeding it with updated data. The "solidified" template actually contains metadata, so Crawlable knows where to fetch these updated data, with a specific session id if needed, etc...
 * Then, the rendered html can be injected in your web application page, so the final client will be able to see it right after the page has loaded.
 * If the client has a javascript support, your web application will replace this static html after it has loaded. If not, the client will simply be able to visit the page as if it was a static web site. That's why if this client was Google, javascript support activated or not, the content would always be visible to it. So your web application would be referenced in the same conditions than a classic static web site.
  
 ## How do I use it ?
 
- ```Crawlable``` uses ```phantomjs``` (http://phantomjs.org/) to render the web page on the server side, but you have no need to install it yourself,
+ `Crawlable` uses `phantomjs` (http://phantomjs.org/) to render the web page on the server side, but you have no need to install it yourself,
 the installer take care of it for you.
 
-But, ```phantomjs``` uses ```python```. So you should have it installed to make the whole thing work.
+But, `phantomjs` uses `python`. So you should have it installed to make the whole thing work.
 
 Then, install it like this:
 
 `npm install crawlable --save`
 
-At this time, ```Crawlable``` is very convenient to use with the great ```Express``` and ```Connect``` modules.
-As we saw above, ```Crawlable``` is not simply a server side module, but also a client side library.
+At this time, `Crawlable` is very convenient to use with the great `Express` and `Connect` modules.
+As we saw above, `Crawlable` is not simply a server side module, but also a client side library.
 
-On the client side, you would use it with the ```JQuery``` plugin named ```jquery.crawlable.js```. This plugin depends on
-the ```Solidify``` plugin named ```jquery.solidify.js```, which also depends on the ```Handlebars``` template engine and ```JQuery```.
+On the client side, you would use it with the `JQuery` plugin named `jquery.crawlable.js`. This plugin depends on
+the `Solidify` plugin named `jquery.solidify.js`, which also depends on the `Handlebars` template engine and `JQuery`.
 
 So you would include something like this in your html:
 
@@ -56,7 +56,7 @@ So you would include something like this in your html:
 	<script type="text/javascript" src="/jquery.crawlable.js"></script>
 ```
 
-### So, how do I use it on the server side with ```Express``` ?
+### So, how do I use it on the server side with `Express` ?
 
 Here is the code you could use in your `app.js` file:
 
@@ -214,5 +214,5 @@ only, are completely ignored by `Solidify` on the client side, so it has no infl
 
 ## Example
 
-* You can check the todos example github: https://github.com/trupin/crawlable-todos
-* Or visit it deployed at: http://crawlable-todos.herokuapp.com/
+* You can check the todos example on github: https://github.com/trupin/crawlable-todos
+* Or visit it deployed on `Heroku`: http://crawlable-todos.herokuapp.com/
