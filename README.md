@@ -14,7 +14,7 @@ By this way, it can give a static cached html to your client, before any javascr
 
 You may say now, "ok, but what if I have cached some dynamic content which could be updated at every time !?".
 
-`Crawlable` doesn't simply cache html, it uses a module named `Solidify` (https://github.com/trupin/solidify) to generate a derived version of your client side templates before storing it. When a client request the server, Crawlable will feed the cached template with some updated data before giving it to you.
+`Crawlable` doesn't simply cache html, it uses a module named `Solidify` (https://github.com/trupin/solidify) to generate a derived version of your client side templates before storing it. When a client requests the server, Crawlable will feed the cached template with some updated data before giving it to you.
 
 ## How does it works ?
 
