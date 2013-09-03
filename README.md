@@ -214,5 +214,5 @@ only, are completely ignored by `Solidify` on the client side, so it has no infl
 
 ## Example
 
-* You can check the todos example on github: https://github.com/trupin/crawlable-todos
-* Or visit it deployed on `Heroku`: http://crawlable-todos.herokuapp.com/
+* You can check the todos example on `github`: https://github.com/trupin/crawlable-todos
+* Or visit it deployed on `heroku`: http://crawlable-todos.herokuapp.com/
