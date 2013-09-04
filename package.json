@@ -13,7 +13,7 @@
         "mocha": "~1.12.0",
         "should": "~1.2.2",
         "crawlable-solidify": ">=1.0.0",
-        "phantom": "git@github.com:trupin/phantomjs-node.git#*"
+        "phantom": "https://github.com/trupin/phantomjs-node/archive/0.5.4.tar.gz"
     },
     "author": {
         "name": "Theophane Rupin",
