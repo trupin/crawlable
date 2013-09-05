@@ -5,6 +5,7 @@
  */
 
 exports.create = require('./lib/processor.js').create;
+exports.express = require('./lib/app.js');
 
 exports.renderers = {
     'default': require('./extensions/defaultRenderer.js')
