@@ -212,7 +212,29 @@ You can see the `Solidify` documentation for details, but here is what you need 
 Notice that every other `Handlebars` syntax are available, and all the syntax we saw which are used on the server side
 only, are completely ignored by `Solidify` on the client side, so it has no influence on your client side original template.
 
-## Example
+## Options
+
+`Crawlable` provides the following configuration options:
+
+* `logger`: a winston logger instance to provide a way to log.
+* `Persistence`: a `Persistence` class to provide a way to store data. Defaults to `NeDb`.
+* `persistenceOptions`: an object containing the `persistence` options used at instantiation.
+* `cacheTtl`: the cache entry time to live in seconds. Defaults to one hour.
+* `Renderer`: the `Renderer` class to provide a way to render a webpage. Defaults to `DefaultRenderer`.
+* `rendererOptions`: an object containing the `renderer` options used at instantiation.
+* `concurrency`: the max amount of pages it can process at the same time. Defaults to 10.
+
+## What technologies does it uses and why ?
+
+`Crawlable` uses the excellent `PhantomJS` (http://phantomjs.org/) through a bridge, implemented in the node module `phantom` (https://github.com/sgentle/phantomjs-node)
+It is light because only one `PhantomJS` process is used. This process runs like a "page pool", meaning that an amount of
+pages is launched at the start and only these `PhantomJS` pages are used to render the html.
+By doing this way, `Crawlable` saves a lot of memory and can consider doing some efficient parallel renderings.
+
+`Crawlable` also uses `nedb` (https://github.com/louischatriot/nedb) by default to store data.
+This can handle an "in memory" and a "persistent" storing. It is also totally embedded and very light.
+
+## Want an example ?
 
 * You can check the todos example on `github`: https://github.com/trupin/crawlable-todos
 * Or visit it deployed on `heroku`: http://crawlable-todos.herokuapp.com/
