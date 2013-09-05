@@ -1,7 +1,7 @@
 DONE
 * Test zombie.js to render the pages on the server side (may be more efficient) --> no its not !
+* Test node-phantom to replace the process pool by a "page" pool
+* Add a logger (maybe winston)
 
 TODO
-* Test node-phantom to replace the process pool by a "page" pool
 * Create the redis and mongodb extensions
-* Add a logger (maybe winston)
