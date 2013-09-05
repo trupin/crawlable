@@ -33,7 +33,7 @@ Here are the steps `Crawlable` is going through to compute your final server sid
 ## How do I use it ?
 
  `Crawlable` uses `phantomjs` (http://phantomjs.org/) to render the web page on the server side, but you have no need to install it yourself,
-the installer take care of it for you.
+the installer takes care of it for you.
 
 But, `phantomjs` uses `python`. So you should have it installed to make the whole thing work.
 
