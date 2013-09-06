@@ -224,7 +224,7 @@ only, are completely ignored by `Solidify` on the client side, so it has no infl
 * `rendererOptions`: an object containing the `renderer` options used at instantiation.
 * `concurrency`: the max amount of pages it can process at the same time. Defaults to 10.
 
-## What technologies does it uses and why ?
+## What technologies does it use and why ?
 
 `Crawlable` uses the excellent `PhantomJS` (http://phantomjs.org/) through a bridge, implemented in the node module `phantom` (https://github.com/sgentle/phantomjs-node)
 It is light because only one `PhantomJS` process is used. This process runs like a "page pool", meaning that an amount of
