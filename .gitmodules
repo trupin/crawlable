@@ -1,0 +1,3 @@
+[submodule "examples/todos"]
+	path = examples/todos
+	url = git@github.com:trupin/crawlable-todos.git
