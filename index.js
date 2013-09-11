@@ -8,11 +8,11 @@ exports.create = require('./lib/processor.js').create;
 exports.express = require('./lib/app.js');
 
 exports.renderers = {
-    'default': require('./extensions/defaultRenderer.js')
+    'default': require('./lib/renderer/waitFor.js')
 };
 
 exports.persistences = {
-    'default': require('./extensions/nedb.js')
+    'default': require('./lib/persistence/nedb.js')
 };
 
 exports.Solidify = require('crawlable-solidify');
