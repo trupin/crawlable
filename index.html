@@ -4,40 +4,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Crawlable by trupin</title>
+
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/trupin/crawlable">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/trupin/crawlable/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/trupin/crawlable/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
     <div class="wrapper">
+      <header>
+        <h1>Crawlable</h1>
+        <p>A way to make your web application crawlable, so it can be well referenced on the web. </p>
 
+        <p class="view"><a href="https://github.com/trupin/crawlable">View the Project on GitHub <small>trupin/crawlable</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/trupin/crawlable/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/trupin/crawlable/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/trupin/crawlable">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
       <section>
-        <div id="title">
-          <h1>Crawlable</h1>
-          <p>A way to make your web application crawlable, so it can be well referenced on the web. </p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/trupin">trupin</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
         <h1>
 <a name="crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site" class="anchor" href="#crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site"><span class="octicon octicon-link"></span></a><code>Crawlable</code> is a way to render your web application as a static web site</h1>
 
@@ -55,7 +45,7 @@ By this way, it can give a static cached html to your client, before any javascr
 
 <p>You may say now, "ok, but what if I have cached some dynamic content which could be updated at every time !?".</p>
 
-<p><code>Crawlable</code> doesn't simply cache html, it uses a module named <code>Solidify</code> (<a href="https://github.com/trupin/solidify">https://github.com/trupin/solidify</a>) to generate a derived version of your client side templates before storing it. When a client requests the server, Crawlable will feed the cached template with some updated data before giving it to you.</p>
+<p><code>Crawlable</code> doesn't simply cache html, it uses a module named <a href="https://github.com/trupin/solidify"><code>Solidify</code></a> to generate a derived version of your client side templates before storing it. When a client requests the server, Crawlable will feed the cached template with some updated data before giving it to you.</p>
 
 <h2>
 <a name="how-does-it-works-" class="anchor" href="#how-does-it-works-"><span class="octicon octicon-link"></span></a>How does it works ?</h2>
@@ -77,7 +67,7 @@ By this way, it can give a static cached html to your client, before any javascr
 </ul><h2>
 <a name="how-do-i-use-it-" class="anchor" href="#how-do-i-use-it-"><span class="octicon octicon-link"></span></a>How do I use it ?</h2>
 
-<p><code>Crawlable</code> uses <code>phantomjs</code> (<a href="http://phantomjs.org/">http://phantomjs.org/</a>) to render the web page on the server side, but you have no need to install it yourself,
+<p><code>Crawlable</code> uses <a href="http://phantomjs.org/"><code>phantomjs</code></a> to render the web page on the server side, but you have no need to install it yourself,
 the installer takes care of it for you.</p>
 
 <p>But, <code>phantomjs</code> uses <code>python</code>. So you should have it installed to make the whole thing work.</p>
@@ -299,9 +289,12 @@ This can handle an "in memory" and a "persistent" storing. It is also totally em
 </li>
 </ul>
       </section>
-
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/trupin">trupin</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
