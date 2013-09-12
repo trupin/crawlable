@@ -226,12 +226,12 @@ only, are completely ignored by `Solidify` on the client side, so it has no infl
 
 ## What technologies does it use and why ?
 
-`Crawlable` uses the excellent `PhantomJS` (http://phantomjs.org/) through a bridge, implemented in the node module `phantom` (https://github.com/sgentle/phantomjs-node)
+`Crawlable` uses the excellent [`PhantomJS`](http://phantomjs.org/) through a bridge, implemented in the node module [`phantom`](https://github.com/sgentle/phantomjs-node)
 It is light because only one `PhantomJS` process is used. This process runs like a "page pool", meaning that an amount of
 pages is launched at the start and only these `PhantomJS` pages are used to render the html.
 By doing this way, `Crawlable` saves a lot of memory and can consider doing some efficient parallel renderings.
 
-`Crawlable` also uses `nedb` (https://github.com/louischatriot/nedb) by default to store data.
+`Crawlable` also uses [`nedb`](https://github.com/louischatriot/nedb) by default to store data.
 This can handle an "in memory" and a "persistent" storing. It is also totally embedded and very light.
 
 ## Want an example ?
