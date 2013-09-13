@@ -65,7 +65,9 @@
         var i = setInterval(function () {
             if ($.active) {
                 if (t) clearTimeout(t);
-                t = setTimeout(_.bind(onTimeout, i), options.wait);
+                t = setTimeout(function () {
+                    onTimeout(i);
+                }, options.wait);
             }
             else if (c <= 0) onTimeout(i);
             c -= options.interval;
