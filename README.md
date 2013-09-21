@@ -30,7 +30,7 @@ Here are the steps `Crawlable` is going through to compute your final server sid
 * Then, the rendered html can be injected in your web application page, so the final client will be able to see it right after the page has loaded.
 * If the client has a javascript support, your web application will replace this static html after it has loaded. If not, the client will simply be able to visit the page as if it was a static web site. That's why if this client was Google, javascript support activated or not, the content would always be visible to it. So your web application would be referenced in the same conditions than a classic static web site.
  
-## How do I use it ?
+## How to use it ?
 
  `Crawlable` uses [`phantomjs`](http://phantomjs.org/) to render the web page on the server side, but you have no need to install it yourself,
 the installer takes care of it for you.
@@ -56,151 +56,169 @@ So you would include something like this in your html:
 	<script type="text/javascript" src="/jquery.crawlable.js"></script>
 ```
 
-### So, how do I use it on the server side with `Express` ?
+### How to use it on the server side with `Express` ?
 
-Here is the code you could use in your `app.js` file:
-
-``` js
-	var express = require('express'),
-		Crawlable = require('crawlable');
-
-	// this is the host that crawlable will query to render the pages.
-	var host = 'http://127.0.0.1:' + (process.env.PORT || 5000);
-
-	// create a new crawlable instance
-	var crawlable = Crawlable.create({ host: host });
-
-	// create your express application
-	var app = express();
-
-	// configure it
-    app.configure(function () {
-		// this middleware catches when crawlable is requesting your server
-        app.use(crawlable._solidify.express());
-    });
-
-	// start crawlable
-	crawlable.start(function (err) {
-		if (err) return console.log(err);
-
-		// register a route. in that case it is the only route available from the crawlable router
-		crawlable.route('/', function (err) {
-			if (err) return console.log(err);
-
-			// register your express main route. don't forget the crawlable middleware, which will handle
-			// the cached html content, and generate it if it doesn't exists.
-			app.get('*', crawlable.express(), function (req, res) {
-				// here you can do what you want to render your application.
-				// you can access the rendered html like this: req.crawlable.html
-				// for example:
-                // res.render('app.html', { staticApp: req.crawlable.html });
-            });
-
-			// start your application
-	        app.listen(url.parse(host).port);
-
-			// generate the cache for every registered routes,so the first client will be able to access the static html.
-			crawlable.crawl();
-		});
-	});
-
-```
-
-Then, admitting you are using `Handlebars` as a template engine, here is what you could have as `index.html` file:
-
-``` html
-	<html>
-		<head>...</head>
-		<body>
-			<!-- Where you put your static application content at the first place. -->
-			<div id="app">{{{ staticApp }}}</div>
-
-			<!-- JS libraries -->
-            <script type="text/javascript" src="/jquery/jquery.js"></script>
-            <script type="text/javascript" src="/handlebars/handlebars.js"></script>
-            <script type="text/javascript" src="/underscore/underscore.js"></script>
-	        <script type="text/javascript" src="/backbone/backbone.js"></script>
-            <script type="text/javascript" src="/backbone.babysitter/lib/backbone.babysitter.js"></script>
-            <script type="text/javascript" src="/backbone.wreqr/lib/backbone.wreqr.js"></script>
-            <script type="text/javascript" src="/marionette/lib/backbone.marionette.js"></script>
-            <script type="text/javascript" src="/solidify/jquery.solidify.js"></script>
-            <script type="text/javascript" src="/crawlable/jquery.crawlable.js"></script>
-
-            <!-- Application sources -->
-            <script type="text/javascript" src="/app.js"></script>
-		</body>
-	</html>
-```
-
-### How do I make my client side javascript compatible ?
-
-What happen now on the client side ? Here is what you could have in your `app.js` file:
+The code below is what your app.js file could contain.
 
 ``` js
-	// Be sure to use the solidify template engine.
-	Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
-        return Backbone.$.solidify(rawTemplate);
-    };
+var Crawlable = require('crawlable');
 
-	// Create a Marionette application (it could be Backbone.js or whatever you want).
-	var app = new Marionette.Application();
-
-	// Initialize it.
-	app.addInitializer(function () {
-		// do something ...
-	});
-
-	$(document).ready(function () {
-
-		// Initialize your main application anchor with crawlable.
-		// It says to crawlable to wait for the application to be fully loaded, before inject the code
-		// into the <div id="#app">.
-		// The context option is the initial state with which the application should start.
-        $('#app').crawlable({
-            context: '<div class="container-fluid"></div>'
+Crawlable.express({
+    port: process.env.PORT || 5000, // the listened port.
+    configure: function (app, express) {
+        // you can configure your app here.
+        app.use(express.favicon());
+        app.use(express.static(__dirname + '/public'));
+        app.use(express.logger('dev'));
+        app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+    },
+    routes: function (app) {
+        // register your api routes here.
+        app.get('/my/api/route', function (req, res) {
+            // do something in your API route.
         });
 
-		// Simply start your application.
-        app.start();
-
-	});
+        // and your crawlable routes.
+        app.crawlable('/');
+    },
+    render: function (req, res) {
+        // specify a way to render your application.
+        res.render('app.html', { html: req.crawlable.html });
+    }
+}, function (err, app) {
+    if (err)
+        return console.log(err);
+    console.log('The application is ready.');
+    // crawl every routes in order to generate the crawlable cache.
+    app.crawl();
+});
 ```
 
-At this point, the peace of code we seen is able to load an application in front of its ```Crawlable``` static part.
-But what if we want to create some dynamic content, and cache it with ```Crawlable```?
+In this example, we create a ready to use `Express` application. The server is already configured to be used with `Crawlable`. This means each registered routes (`get|post|put|del`) define your API, and each registered `Crawlable` routes define a way to render your application.
 
-Imagine now you want to render a list. You would have a `Collection` and a `View`, rendering an `ItemView` for each
-`Model` of your `Collection`.
+When a client requests a `Crawlable` route, the `render` function is called with the `req.crawlable` object filled with some elements you may need to render your application (most of the time your need the `req.crawlable.html` string, which contains the html of your rendered application for this route).
 
-By using some `Handlebars` templates, see how you would do (notice there is no need to modify your javascript code
-to make it compatible with `Crawlable`, only your templates).
+Notice the `Crawlable.express` configures the application to use `HandleBars` as a template engine.
+
+The `index.html` template could be as below.
+
+``` html
+<html>
+    <head>...</head>
+    <body>
+        <!-- Where you put your static application content at the first place. -->
+        <div id="app">{{{ html }}}</div>
+
+        <!-- JS libraries -->
+        <script type="text/javascript" src="/jquery/jquery.js"></script>
+        <script type="text/javascript" src="/handlebars/handlebars.js"></script>
+        <script type="text/javascript" src="/underscore/underscore.js"></script>
+	<script type="text/javascript" src="/backbone/backbone.js"></script>
+        <script type="text/javascript" src="/backbone.babysitter/lib/backbone.babysitter.js"></script>
+        <script type="text/javascript" src="/backbone.wreqr/lib/backbone.wreqr.js"></script>
+        <script type="text/javascript" src="/marionette/lib/backbone.marionette.js"></script>
+        <script type="text/javascript" src="/solidify/jquery.solidify.js"></script>
+        <script type="text/javascript" src="/crawlable/jquery.crawlable.js"></script>
+
+        <!-- Application sources -->
+        <script type="text/javascript" src="/app.js"></script>
+    </body>
+</html>
+```
+
+### Description of `Crawlable.express`
+
+`Crawlable.express(options, callback) {...};`
+
+**options:**
+* `port`: the listened port. _Required_
+* `crawlable`: the crawlable options.
+* `handlebars.views`: the folder where your views are (default to 'views').
+* `handlebars.helpers`: a function to register some helpers (`function (HandleBars, ...) {...};`).
+* `handlebars.args`: an array of arguments which will be passed to the `handlebars.helpers` function.
+* `configure`: a function to configure your `Express` application (`function (app, express) {...};`). _Required_
+* `routes`: a function to register your `Express` and `Crawlable` routes (`function (app) {...};`).
+* `render`: a function to render your application (`function (req, res) {...};`). _Required_
+
+**callback:** a function called just after the application has started (`function (err, res) {...};`).
+
+**`app` object extra features**:
+* `app._crawlable`: the `Crawlable` instance.
+* `app.crawlable`: the `crawlable.route` method equivalent. Registers a `crawlable` route (`app.crawlable("pathname" | ["pahtname1", ...]);`).
+* `app.crawl`: the `crawlable.crawl` method equivalent. Crawls all the `crawlable` routes (`app.crawl(callback);`).
+
+## Adapt a `Backbone.Marionette` application to `Crawlable`
+
+The code below is what your `app.js` file could contain.
+
+``` js
+// Be sure to use the solidify template engine.
+Backbone.Marionette.TemplateCache.prototype.compileTemplate = function (rawTemplate) {
+    return Backbone.$.solidify(rawTemplate);
+};
+
+// Create a Marionette application (it could be Backbone.js or whatever you want).
+var app = new Marionette.Application();
+
+$(document).ready(function () {
+    // Initialize your main application anchor with crawlable.
+    // It says to crawlable to wait for the application to be fully loaded, before injecting the code
+    // into the <div id="#app">.
+    $('#app').crawlable();
+
+    // Start your application.
+    app.start();
+});
+```
+
+This example of code shows you how to render your application over the static html, cached by `Crawlable`. By doing that, your application page will seems to be fully loaded even if your javascript code hasn't been executed yet.
+
+### Description of the `jQuery.crawlable` plugin
+
+`jQuery("selector").crawlable(options);`: define an anchor in which your dynamic application will be injected when fully loaded.
+
+**options**:
+
+* `context`: a string containing the initial html with which your application should start.
+* `wait`: a number determining how much time (ms) `Crawlable` have to wait after the last ajax query to consider the application as fully loaded (default to 250 ms).
+
+### Dynamic cached templates
+
+You may wonder now, **"What if my page deals with some dynamic contents ?"**. `Crawlable` is able to handle it, but you will have to adapt your client side templates.
+
+For this example, imagine we want to render a list. We have a `Collection` and a `View`, rendering an `ItemView` for each `Model` of our `Collection`.
+
+By using some `Handlebars` templates, see how we do it.
 
 Here is the `Item` template:
 
 ``` html
-	<!-- specify the needed request to fetch the data -->
-	{{solidify "/api/items"}}
-	<!-- the same as {{#each}}, but for the server side rendering only (client will ignore it) -->
-	{{#solidify-each "this"}}
-		<!-- dereference the field content, will be interpreted on the client and server side -->
-		<li>{ {content} }</li>
-	{{/solidify-each}}
+<!-- specify the needed request to fetch the data -->
+{{solidify "/api/items"}}
+<!-- the same as {{#each}}, but for the server side rendering only (client will ignore it) -->  
+{{#solidify-each "this"}}
+    <!-- dereference the field content, will be interpreted on the client and server side -->
+    <li>{ {content} }</li>
+{{/solidify-each}}
 ```
 
 Now here is the `List` template:
 
 ``` html
-	<div>
-		<h1>My list</h1>
-		<div>
-			<!-- Include a template. This is for the server side only, the client simply ignore it -->
-			{{solidify-include "/templates/item.html"}}
-		</div>
-	</div>
+<div>
+     <h1>My list</h1>
+     <div>
+          <!-- Include a template. This is for the server side only, the client simply ignore it -->
+          {{solidify-include "/templates/item.html"}}
+     </div>
+</div>
 ```
 
-As you can see, you just have to respect some extra rules to make your template understandable by `Crawlable`.
-You can see the `Solidify` documentation for details, but here is what you need for now:
+As you can see, we just have to respect some extra rules to make our template understandable by `Crawlable`.
+
+### Quick description of the `Solidify` syntax
+
+You can see the [`Solidify` documentation](https://github.com/trupin/solidify) for details, but here is what you need for now:
 
 * `{{solidify ["method"] "/my/api/route"}}` specifies a request to do when `Crawlable` will need some data to feed the template
 (on the server side only).
@@ -209,21 +227,7 @@ You can see the `Solidify` documentation for details, but here is what you need 
 * `{ {[#]helperName} }` calls an helper (on the client and server side).
 * `{ {fieldName} }` dereferences a field (on the client and server side).
 
-Notice that every other `Handlebars` syntax are available, and all the syntax we saw which are used on the server side
-only, are completely ignored by `Solidify` on the client side, so it has no influence on your client side original template.
-
-## Options
-
-`Crawlable` provides the following configuration options:
-
-* `logger`: a winston logger instance to provide a way to log.
-* `Persistence`: a `Persistence` class to provide a way to store data. Defaults to `NeDb`.
-* `persistenceOptions`: an object containing the `persistence` options used at instantiation.
-* `cacheTtl`: the cache entry time to live in seconds. Defaults to one hour.
-* `Renderer`: the `Renderer` class to provide a way to render a webpage. Defaults to `DefaultRenderer`.
-* `rendererOptions`: an object containing the `renderer` options used at instantiation.
-* `concurrency`: the max amount of pages it can process at the same time. Defaults to 10.
-
+Notice that every other `HandleBars` syntax are available, and all the syntaxes we saw which are used on the server side only, are completely ignored by `Solidify` on the client side, so it has no influence on your client side original templates. 
 ## What technologies does it use and why ?
 
 `Crawlable` uses the excellent [`PhantomJS`](http://phantomjs.org/) through a bridge, implemented in the node module [`phantom`](https://github.com/sgentle/phantomjs-node)
