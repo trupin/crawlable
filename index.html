@@ -65,7 +65,7 @@ By this way, it can give a static cached html to your client, before any javascr
 <li>Then, the rendered html can be injected in your web application page, so the final client will be able to see it right after the page has loaded.</li>
 <li>If the client has a javascript support, your web application will replace this static html after it has loaded. If not, the client will simply be able to visit the page as if it was a static web site. That's why if this client was Google, javascript support activated or not, the content would always be visible to it. So your web application would be referenced in the same conditions than a classic static web site.</li>
 </ul><h2>
-<a name="how-do-i-use-it-" class="anchor" href="#how-do-i-use-it-"><span class="octicon octicon-link"></span></a>How do I use it ?</h2>
+<a name="how-to-use-it-" class="anchor" href="#how-to-use-it-"><span class="octicon octicon-link"></span></a>How to use it ?</h2>
 
 <p><code>Crawlable</code> uses <a href="http://phantomjs.org/"><code>phantomjs</code></a> to render the web page on the server side, but you have no need to install it yourself,
 the installer takes care of it for you.</p>
@@ -91,147 +91,189 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 </pre></div>
 
 <h3>
-<a name="so-how-do-i-use-it-on-the-server-side-with-express-" class="anchor" href="#so-how-do-i-use-it-on-the-server-side-with-express-"><span class="octicon octicon-link"></span></a>So, how do I use it on the server side with <code>Express</code> ?</h3>
+<a name="how-to-use-it-on-the-server-side-with-express-" class="anchor" href="#how-to-use-it-on-the-server-side-with-express-"><span class="octicon octicon-link"></span></a>How to use it on the server side with <code>Express</code> ?</h3>
 
-<p>Here is the code you could use in your <code>app.js</code> file:</p>
+<p>The code below is what your <code>app.js</code> file could contain.</p>
 
-<div class="highlight highlight-js"><pre>    <span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'express'</span><span class="p">),</span>
-        <span class="nx">Crawlable</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crawlable'</span><span class="p">);</span>
+<div class="highlight highlight-js"><pre><span class="kd">var</span> <span class="nx">Crawlable</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'crawlable'</span><span class="p">);</span>
 
-    <span class="c1">// this is the host that crawlable will query to render the pages.</span>
-    <span class="kd">var</span> <span class="nx">host</span> <span class="o">=</span> <span class="s1">'http://127.0.0.1:'</span> <span class="o">+</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5000</span><span class="p">);</span>
-
-    <span class="c1">// create a new crawlable instance</span>
-    <span class="kd">var</span> <span class="nx">crawlable</span> <span class="o">=</span> <span class="nx">Crawlable</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span> <span class="nx">host</span><span class="o">:</span> <span class="nx">host</span> <span class="p">});</span>
-
-    <span class="c1">// create your express application</span>
-    <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">();</span>
-
-    <span class="c1">// configure it</span>
-    <span class="nx">app</span><span class="p">.</span><span class="nx">configure</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// this middleware catches when crawlable is requesting your server</span>
-        <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">crawlable</span><span class="p">.</span><span class="nx">_solidify</span><span class="p">.</span><span class="nx">express</span><span class="p">());</span>
-    <span class="p">});</span>
-
-    <span class="c1">// start crawlable</span>
-    <span class="nx">crawlable</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
-
-        <span class="c1">// register a route. in that case it is the only route available from the crawlable router</span>
-        <span class="nx">crawlable</span><span class="p">.</span><span class="nx">route</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
-
-            <span class="c1">// register your express main route. don't forget the crawlable middleware, which will handle</span>
-            <span class="c1">// the cached html content, and generate it if it doesn't exists.</span>
-            <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'*'</span><span class="p">,</span> <span class="nx">crawlable</span><span class="p">.</span><span class="nx">express</span><span class="p">(),</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
-                <span class="c1">// here you can do what you want to render your application.</span>
-                <span class="c1">// you can access the rendered html like this: req.crawlable.html</span>
-                <span class="c1">// for example:</span>
-                <span class="c1">// res.render('app.html', { staticApp: req.crawlable.html });</span>
-            <span class="p">});</span>
-
-            <span class="c1">// start your application</span>
-            <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">url</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">host</span><span class="p">).</span><span class="nx">port</span><span class="p">);</span>
-
-            <span class="c1">// generate the cache for every registered routes,so the first client will be able to access the static html.</span>
-            <span class="nx">crawlable</span><span class="p">.</span><span class="nx">crawl</span><span class="p">();</span>
+<span class="nx">Crawlable</span><span class="p">.</span><span class="nx">express</span><span class="p">({</span>
+    <span class="nx">port</span><span class="o">:</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">5000</span><span class="p">,</span> <span class="c1">// the listened port.</span>
+    <span class="nx">configure</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">app</span><span class="p">,</span> <span class="nx">express</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// you can configure your app here.</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">favicon</span><span class="p">());</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/public'</span><span class="p">));</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">logger</span><span class="p">(</span><span class="s1">'dev'</span><span class="p">));</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">errorHandler</span><span class="p">({</span> <span class="nx">dumpExceptions</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nx">showStack</span><span class="o">:</span> <span class="kc">true</span> <span class="p">}));</span>
+    <span class="p">},</span>
+    <span class="nx">routes</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// register your api routes here.</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'/my/api/route'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// do something in your API route.</span>
         <span class="p">});</span>
-    <span class="p">});</span>
 
+        <span class="c1">// and your crawlable routes.</span>
+        <span class="nx">app</span><span class="p">.</span><span class="nx">crawlable</span><span class="p">(</span><span class="s1">'/'</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">render</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// specify a way to render your application.</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">'app.html'</span><span class="p">,</span> <span class="p">{</span> <span class="nx">html</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">crawlable</span><span class="p">.</span><span class="nx">html</span> <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">},</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'The application is ready.'</span><span class="p">);</span>
+    <span class="c1">// crawl every routes in order to generate the crawlable cache.</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">crawl</span><span class="p">();</span>
+<span class="p">});</span>
 </pre></div>
 
-<p>Then, admitting you are using <code>Handlebars</code> as a template engine, here is what you could have as <code>index.html</code> file:</p>
+<p>In this example, we create a ready to use <code>Express</code> application. The server is already configured to be used with <code>Crawlable</code>. This means each registered routes (<code>get|post|put|del</code>) define your API, and each registered <code>Crawlable</code> routes define a way to render your application.</p>
 
-<div class="highlight highlight-html"><pre>    <span class="nt">&lt;html&gt;</span>
-        <span class="nt">&lt;head&gt;</span>...<span class="nt">&lt;/head&gt;</span>
-        <span class="nt">&lt;body&gt;</span>
-            <span class="c">&lt;!-- Where you put your static application content at the first place. --&gt;</span>
-            <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"app"</span><span class="nt">&gt;</span>{{{ staticApp }}}<span class="nt">&lt;/div&gt;</span>
+<p>When a client requests a <code>Crawlable</code> route, the <code>render</code> function is called with the <code>req.crawlable</code> object filled with some elements you may need to render your application (most of the time your need the <code>req.crawlable.html</code> string, which contains the html of your rendered application for this route).</p>
 
-            <span class="c">&lt;!-- JS libraries --&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/jquery/jquery.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/handlebars/handlebars.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/underscore/underscore.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/backbone/backbone.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/backbone.babysitter/lib/backbone.babysitter.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/backbone.wreqr/lib/backbone.wreqr.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/marionette/lib/backbone.marionette.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/solidify/jquery.solidify.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/crawlable/jquery.crawlable.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<p>Notice the <code>Crawlable.express</code> configures the application to use <code>HandleBars</code> as a template engine.</p>
 
-            <span class="c">&lt;!-- Application sources --&gt;</span>
-            <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/app.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-        <span class="nt">&lt;/body&gt;</span>
-    <span class="nt">&lt;/html&gt;</span>
+<p>The <code>index.html</code> template could be as below.</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>...<span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="c">&lt;!-- Where you put your static application content at the first place. --&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"app"</span><span class="nt">&gt;</span>{{{ html }}}<span class="nt">&lt;/div&gt;</span>
+
+        <span class="c">&lt;!-- JS libraries --&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/jquery/jquery.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/handlebars/handlebars.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/underscore/underscore.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/backbone/backbone.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/backbone.babysitter/lib/backbone.babysitter.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/backbone.wreqr/lib/backbone.wreqr.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/marionette/lib/backbone.marionette.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/solidify/jquery.solidify.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/crawlable/jquery.crawlable.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+
+        <span class="c">&lt;!-- Application sources --&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"/app.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
 </pre></div>
 
 <h3>
-<a name="how-do-i-make-my-client-side-javascript-compatible-" class="anchor" href="#how-do-i-make-my-client-side-javascript-compatible-"><span class="octicon octicon-link"></span></a>How do I make my client side javascript compatible ?</h3>
+<a name="description-of-crawlableexpress" class="anchor" href="#description-of-crawlableexpress"><span class="octicon octicon-link"></span></a>Description of <code>Crawlable.express</code>
+</h3>
 
-<p>What happen now on the client side ? Here is what you could have in your <code>app.js</code> file:</p>
+<p><code>Crawlable.express(options, callback) {...};</code></p>
 
-<div class="highlight highlight-js"><pre>    <span class="c1">// Be sure to use the solidify template engine.</span>
-    <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Marionette</span><span class="p">.</span><span class="nx">TemplateCache</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">compileTemplate</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">rawTemplate</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">$</span><span class="p">.</span><span class="nx">solidify</span><span class="p">(</span><span class="nx">rawTemplate</span><span class="p">);</span>
-    <span class="p">};</span>
+<p><strong>options:</strong></p>
 
-    <span class="c1">// Create a Marionette application (it could be Backbone.js or whatever you want).</span>
-    <span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Marionette</span><span class="p">.</span><span class="nx">Application</span><span class="p">();</span>
+<ul>
+<li>
+<code>port</code>: the listened port. <em>Required</em>
+</li>
+<li>
+<code>crawlable</code>: the crawlable options.</li>
+<li>
+<code>handlebars.views</code>: the folder where your views are (default to 'views').</li>
+<li>
+<code>handlebars.helpers</code>: a function to register some helpers (<code>function (HandleBars, ...) {...};</code>).</li>
+<li>
+<code>handlebars.args</code>: an array of arguments which will be passed to the <code>handlebars.helpers</code> function.</li>
+<li>
+<code>configure</code>: a function to configure your <code>Express</code> application (<code>function (app, express) {...};</code>). <em>Required</em>
+</li>
+<li>
+<code>routes</code>: a function to register your <code>Express</code> and <code>Crawlable</code> routes (<code>function (app) {...};</code>).</li>
+<li>
+<code>render</code>: a function to render your application (<code>function (req, res) {...};</code>). <em>Required</em>
+</li>
+</ul><p><strong>callback:</strong> a function called just after the application has started (<code>function (err, res) {...};</code>).</p>
 
-    <span class="c1">// Initialize it.</span>
-    <span class="nx">app</span><span class="p">.</span><span class="nx">addInitializer</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// do something ...</span>
-    <span class="p">});</span>
+<p><strong><code>app</code> object extra features</strong>:</p>
 
-    <span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<ul>
+<li>
+<code>app._crawlable</code>: the <code>Crawlable</code> instance.</li>
+<li>
+<code>app.crawlable</code>: the <code>crawlable.route</code> method equivalent. Registers a <code>crawlable</code> route (<code>app.crawlable("pathname" | ["pahtname1", ...]);</code>).</li>
+<li>
+<code>app.crawl</code>: the <code>crawlable.crawl</code> method equivalent. Crawls all the <code>crawlable</code> routes (<code>app.crawl(callback);</code>).</li>
+</ul><h2>
+<a name="adapt-a-backbonemarionette-application-to-crawlable" class="anchor" href="#adapt-a-backbonemarionette-application-to-crawlable"><span class="octicon octicon-link"></span></a>Adapt a <code>Backbone.Marionette</code> application to <code>Crawlable</code>
+</h2>
 
-        <span class="c1">// Initialize your main application anchor with crawlable.</span>
-        <span class="c1">// It says to crawlable to wait for the application to be fully loaded, before inject the code</span>
-        <span class="c1">// into the &lt;div id="#app"&gt;.</span>
-        <span class="c1">// The context option is the initial state with which the application should start.</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s1">'#app'</span><span class="p">).</span><span class="nx">crawlable</span><span class="p">({</span>
-            <span class="nx">context</span><span class="o">:</span> <span class="s1">'&lt;div class="container-fluid"&gt;&lt;/div&gt;'</span>
-        <span class="p">});</span>
+<p>The code below is what your <code>app.js</code> file could contain.</p>
 
-        <span class="c1">// Simply start your application.</span>
-        <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+<div class="highlight highlight-js"><pre><span class="c1">// Be sure to use the solidify template engine.</span>
+<span class="nx">Backbone</span><span class="p">.</span><span class="nx">Marionette</span><span class="p">.</span><span class="nx">TemplateCache</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">compileTemplate</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">rawTemplate</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">$</span><span class="p">.</span><span class="nx">solidify</span><span class="p">(</span><span class="nx">rawTemplate</span><span class="p">);</span>
+<span class="p">};</span>
 
-    <span class="p">});</span>
+<span class="c1">// Create a Marionette application (it could be Backbone.js or whatever you want).</span>
+<span class="kd">var</span> <span class="nx">app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Marionette</span><span class="p">.</span><span class="nx">Application</span><span class="p">();</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Initialize your main application anchor with crawlable.</span>
+    <span class="c1">// It says to crawlable to wait for the application to be fully loaded, before injecting the code</span>
+    <span class="c1">// into the &lt;div id="#app"&gt;.</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'#app'</span><span class="p">).</span><span class="nx">crawlable</span><span class="p">();</span>
+
+    <span class="c1">// Start your application.</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+<span class="p">});</span>
 </pre></div>
 
-<p>At this point, the peace of code we seen is able to load an application in front of its <code>Crawlable</code> static part.
-But what if we want to create some dynamic content, and cache it with <code>Crawlable</code>?</p>
+<p>This example of code shows you how to render your application over the static html, cached by <code>Crawlable</code>. By doing that, your application page will seems to be fully loaded even if your javascript code hasn't been executed yet.</p>
 
-<p>Imagine now you want to render a list. You would have a <code>Collection</code> and a <code>View</code>, rendering an <code>ItemView</code> for each
-<code>Model</code> of your <code>Collection</code>.</p>
+<h3>
+<a name="description-of-the-jquerycrawlable-plugin" class="anchor" href="#description-of-the-jquerycrawlable-plugin"><span class="octicon octicon-link"></span></a>Description of the <code>jQuery.crawlable</code> plugin</h3>
 
-<p>By using some <code>Handlebars</code> templates, see how you would do (notice there is no need to modify your javascript code
-to make it compatible with <code>Crawlable</code>, only your templates).</p>
+<p><code>jQuery("selector").crawlable(options);</code>: define an anchor in which your dynamic application will be injected when fully loaded.</p>
+
+<p><strong>options</strong>:</p>
+
+<ul>
+<li>
+<code>context</code>: a string containing the initial html with which your application should start.</li>
+<li>
+<code>wait</code>: a number determining how much time (ms) <code>Crawlable</code> have to wait after the last ajax query to consider the application as fully loaded (default to 250 ms).</li>
+</ul><h3>
+<a name="dynamic-cached-templates" class="anchor" href="#dynamic-cached-templates"><span class="octicon octicon-link"></span></a>Dynamic cached templates</h3>
+
+<p>You may wonder now, <strong>"What if my page deals with some dynamic contents ?"</strong>. <code>Crawlable</code> is able to handle it, but you will have to adapt your client side templates.</p>
+
+<p>For this example, imagine we want to render a list. We have a <code>Collection</code> and a <code>View</code>, rendering an <code>ItemView</code> for each <code>Model</code> of our <code>Collection</code>.</p>
+
+<p>By using some <code>Handlebars</code> templates, see how we do it.</p>
 
 <p>Here is the <code>Item</code> template:</p>
 
-<div class="highlight highlight-html"><pre>    <span class="c">&lt;!-- specify the needed request to fetch the data --&gt;</span>
-    {{solidify "/api/items"}}
-    <span class="c">&lt;!-- the same as {{#each}}, but for the server side rendering only (client will ignore it) --&gt;</span>
-    {{#solidify-each "this"}}
-        <span class="c">&lt;!-- dereference the field content, will be interpreted on the client and server side --&gt;</span>
-        <span class="nt">&lt;li&gt;</span>{ {content} }<span class="nt">&lt;/li&gt;</span>
-    {{/solidify-each}}
+<div class="highlight highlight-html"><pre><span class="c">&lt;!-- specify the needed request to fetch the data --&gt;</span>
+{{solidify "/api/items"}}
+<span class="c">&lt;!-- the same as {{#each}}, but for the server side rendering only (client will ignore it) --&gt;</span>  
+{{#solidify-each "this"}}
+    <span class="c">&lt;!-- dereference the field content, will be interpreted on the client and server side --&gt;</span>
+    <span class="nt">&lt;li&gt;</span>{ {content} }<span class="nt">&lt;/li&gt;</span>
+{{/solidify-each}}
 </pre></div>
 
 <p>Now here is the <code>List</code> template:</p>
 
-<div class="highlight highlight-html"><pre>    <span class="nt">&lt;div&gt;</span>
-        <span class="nt">&lt;h1&gt;</span>My list<span class="nt">&lt;/h1&gt;</span>
-        <span class="nt">&lt;div&gt;</span>
-            <span class="c">&lt;!-- Include a template. This is for the server side only, the client simply ignore it --&gt;</span>
-            {{solidify-include "/templates/item.html"}}
-        <span class="nt">&lt;/div&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
+<div class="highlight highlight-html"><pre><span class="nt">&lt;div&gt;</span>
+     <span class="nt">&lt;h1&gt;</span>My list<span class="nt">&lt;/h1&gt;</span>
+     <span class="nt">&lt;div&gt;</span>
+          <span class="c">&lt;!-- Include a template. This is for the server side only, the client simply ignore it --&gt;</span>
+          {{solidify-include "/templates/item.html"}}
+     <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
 </pre></div>
 
-<p>As you can see, you just have to respect some extra rules to make your template understandable by <code>Crawlable</code>.
-You can see the <code>Solidify</code> documentation for details, but here is what you need for now:</p>
+<p>As you can see, we just have to respect some extra rules to make our template understandable by <code>Crawlable</code>.</p>
+
+<h3>
+<a name="quick-description-of-the-solidify-syntax" class="anchor" href="#quick-description-of-the-solidify-syntax"><span class="octicon octicon-link"></span></a>Quick description of the <code>Solidify</code> syntax</h3>
+
+<p>You can see the <a href="https://github.com/trupin/solidify"><code>Solidify</code> documentation</a> for details, but here is what you need for now:</p>
 
 <ul>
 <li>
@@ -245,30 +287,9 @@ You can see the <code>Solidify</code> documentation for details, but here is wha
 <code>{ {[#]helperName} }</code> calls an helper (on the client and server side).</li>
 <li>
 <code>{ {fieldName} }</code> dereferences a field (on the client and server side).</li>
-</ul><p>Notice that every other <code>Handlebars</code> syntax are available, and all the syntax we saw which are used on the server side
-only, are completely ignored by <code>Solidify</code> on the client side, so it has no influence on your client side original template.</p>
+</ul><p>Notice that every other <code>HandleBars</code> syntax are available, and all the syntaxes we saw which are used on the server side only, are completely ignored by <code>Solidify</code> on the client side, so it has no influence on your client side original templates. </p>
 
 <h2>
-<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options</h2>
-
-<p><code>Crawlable</code> provides the following configuration options:</p>
-
-<ul>
-<li>
-<code>logger</code>: a winston logger instance to provide a way to log.</li>
-<li>
-<code>Persistence</code>: a <code>Persistence</code> class to provide a way to store data. Defaults to <code>NeDb</code>.</li>
-<li>
-<code>persistenceOptions</code>: an object containing the <code>persistence</code> options used at instantiation.</li>
-<li>
-<code>cacheTtl</code>: the cache entry time to live in seconds. Defaults to one hour.</li>
-<li>
-<code>Renderer</code>: the <code>Renderer</code> class to provide a way to render a webpage. Defaults to <code>DefaultRenderer</code>.</li>
-<li>
-<code>rendererOptions</code>: an object containing the <code>renderer</code> options used at instantiation.</li>
-<li>
-<code>concurrency</code>: the max amount of pages it can process at the same time. Defaults to 10.</li>
-</ul><h2>
 <a name="what-technologies-does-it-use-and-why-" class="anchor" href="#what-technologies-does-it-use-and-why-"><span class="octicon octicon-link"></span></a>What technologies does it use and why ?</h2>
 
 <p><code>Crawlable</code> uses the excellent <a href="http://phantomjs.org/"><code>PhantomJS</code></a> through a bridge, implemented in the node module <a href="https://github.com/sgentle/phantomjs-node"><code>phantom</code></a>
