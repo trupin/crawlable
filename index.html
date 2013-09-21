@@ -29,7 +29,7 @@
       </header>
       <section>
         <h1>
-<a name="crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site" class="anchor" href="#crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site"><span class="octicon octicon-link"></span></a><code>Crawlable</code> is a way to render your web application as a static web site</h1>
+<a name="crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site" class="anchor" href="#crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site"><span class="octicon octicon-link"></span></a>Crawlable is a way to render your web application as a static web site</h1>
 
 <p>When you develop some cool features on a web project, there is a good chance that you do some ajax requests.
 In the case you are developing a web application with <code>backbone.js</code> for example, you have no choice but to use the ajax
@@ -160,8 +160,7 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 </pre></div>
 
 <h3>
-<a name="description-of-crawlableexpress" class="anchor" href="#description-of-crawlableexpress"><span class="octicon octicon-link"></span></a>Description of <code>Crawlable.express</code>
-</h3>
+<a name="description-of-crawlableexpress" class="anchor" href="#description-of-crawlableexpress"><span class="octicon octicon-link"></span></a>Description of Crawlable.express</h3>
 
 <p><code>Crawlable.express(options, callback) {...};</code></p>
 
@@ -199,8 +198,7 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 <li>
 <code>app.crawl</code>: the <code>crawlable.crawl</code> method equivalent. Crawls all the <code>crawlable</code> routes (<code>app.crawl(callback);</code>).</li>
 </ul><h2>
-<a name="adapt-a-backbonemarionette-application-to-crawlable" class="anchor" href="#adapt-a-backbonemarionette-application-to-crawlable"><span class="octicon octicon-link"></span></a>Adapt a <code>Backbone.Marionette</code> application to <code>Crawlable</code>
-</h2>
+<a name="adapt-a-backbonemarionette-application-to-crawlable" class="anchor" href="#adapt-a-backbonemarionette-application-to-crawlable"><span class="octicon octicon-link"></span></a>Adapt a Backbone.Marionette application to Crawlable</h2>
 
 <p>The code below is what your <code>app.js</code> file could contain.</p>
 
@@ -226,7 +224,7 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 <p>This example of code shows you how to render your application over the static html, cached by <code>Crawlable</code>. By doing that, your application page will seems to be fully loaded even if your javascript code hasn't been executed yet.</p>
 
 <h3>
-<a name="description-of-the-jquerycrawlable-plugin" class="anchor" href="#description-of-the-jquerycrawlable-plugin"><span class="octicon octicon-link"></span></a>Description of the <code>jQuery.crawlable</code> plugin</h3>
+<a name="description-of-the-jquerycrawlable-plugin" class="anchor" href="#description-of-the-jquerycrawlable-plugin"><span class="octicon octicon-link"></span></a>Description of the jQuery.crawlable plugin</h3>
 
 <p><code>jQuery("selector").crawlable(options);</code>: define an anchor in which your dynamic application will be injected when fully loaded.</p>
 
@@ -271,7 +269,7 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 <p>As you can see, we just have to respect some extra rules to make our template understandable by <code>Crawlable</code>.</p>
 
 <h3>
-<a name="quick-description-of-the-solidify-syntax" class="anchor" href="#quick-description-of-the-solidify-syntax"><span class="octicon octicon-link"></span></a>Quick description of the <code>Solidify</code> syntax</h3>
+<a name="quick-description-of-the-solidify-syntax" class="anchor" href="#quick-description-of-the-solidify-syntax"><span class="octicon octicon-link"></span></a>Quick description of the Solidify syntax</h3>
 
 <p>You can see the <a href="https://github.com/trupin/solidify"><code>Solidify</code> documentation</a> for details, but here is what you need for now:</p>
 
@@ -287,7 +285,7 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 <code>{ {[#]helperName} }</code> calls an helper (on the client and server side).</li>
 <li>
 <code>{ {fieldName} }</code> dereferences a field (on the client and server side).</li>
-</ul><p>Notice that every other <code>HandleBars</code> syntax are available, and all the syntaxes we saw which are used on the server side only, are completely ignored by <code>Solidify</code> on the client side, so it has no influence on your client side original templates. </p>
+</ul><p>Notice that every other <code>HandleBars</code> syntax are available, and all the syntaxes we saw which are used on the server side only, are completely ignored by <code>Solidify</code> on the client side, so it has no influence on your client side original templates.</p>
 
 <h2>
 <a name="what-technologies-does-it-use-and-why-" class="anchor" href="#what-technologies-does-it-use-and-why-"><span class="octicon octicon-link"></span></a>What technologies does it use and why ?</h2>
