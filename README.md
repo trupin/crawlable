@@ -58,7 +58,7 @@ So you would include something like this in your html:
 
 ### How to use it on the server side with `Express` ?
 
-The code below is what your app.js file could contain.
+The code below is what your `app.js` file could contain.
 
 ``` js
 var Crawlable = require('crawlable');
