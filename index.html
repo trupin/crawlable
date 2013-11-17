@@ -1,35 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Crawlable by trupin</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Crawlable : A way to make your web application crawlable, so it can be well referenced on the web. " />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Crawlable</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Crawlable</h1>
-        <p>A way to make your web application crawlable, so it can be well referenced on the web. </p>
 
-        <p class="view"><a href="https://github.com/trupin/crawlable">View the Project on GitHub <small>trupin/crawlable</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/trupin/crawlable">View on GitHub</a>
 
+          <h1 id="project_title">Crawlable</h1>
+          <h2 id="project_tagline">A way to make your web application crawlable, so it can be well referenced on the web. </h2>
 
-        <ul>
-          <li><a href="https://github.com/trupin/crawlable/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/trupin/crawlable/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/trupin/crawlable">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/trupin/crawlable/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/trupin/crawlable/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
-<a name="crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site" class="anchor" href="#crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site"><span class="octicon octicon-link"></span></a>Crawlable is a way to render your web application as a static web site</h1>
+<a name="crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site" class="anchor" href="#crawlable-is-a-way-to-render-your-web-application-as-a-static-web-site"><span class="octicon octicon-link"></span></a><code>Crawlable</code> is a way to render your web application as a static web site</h1>
 
 <p>When you develop some cool features on a web project, there is a good chance that you do some ajax requests.
 In the case you are developing a web application with <code>backbone.js</code> for example, you have no choice but to use the ajax
@@ -160,7 +163,8 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 </pre></div>
 
 <h3>
-<a name="description-of-crawlableexpress" class="anchor" href="#description-of-crawlableexpress"><span class="octicon octicon-link"></span></a>Description of Crawlable.express</h3>
+<a name="description-of-crawlableexpress" class="anchor" href="#description-of-crawlableexpress"><span class="octicon octicon-link"></span></a>Description of <code>Crawlable.express</code>
+</h3>
 
 <p><code>Crawlable.express(options, callback) {...};</code></p>
 
@@ -198,7 +202,8 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 <li>
 <code>app.crawl</code>: the <code>crawlable.crawl</code> method equivalent. Crawls all the <code>crawlable</code> routes (<code>app.crawl(callback);</code>).</li>
 </ul><h2>
-<a name="adapt-a-backbonemarionette-application-to-crawlable" class="anchor" href="#adapt-a-backbonemarionette-application-to-crawlable"><span class="octicon octicon-link"></span></a>Adapt a Backbone.Marionette application to Crawlable</h2>
+<a name="adapt-a-backbonemarionette-application-to-crawlable" class="anchor" href="#adapt-a-backbonemarionette-application-to-crawlable"><span class="octicon octicon-link"></span></a>Adapt a <code>Backbone.Marionette</code> application to <code>Crawlable</code>
+</h2>
 
 <p>The code below is what your <code>app.js</code> file could contain.</p>
 
@@ -224,7 +229,7 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 <p>This example of code shows you how to render your application over the static html, cached by <code>Crawlable</code>. By doing that, your application page will seems to be fully loaded even if your javascript code hasn't been executed yet.</p>
 
 <h3>
-<a name="description-of-the-jquerycrawlable-plugin" class="anchor" href="#description-of-the-jquerycrawlable-plugin"><span class="octicon octicon-link"></span></a>Description of the jQuery.crawlable plugin</h3>
+<a name="description-of-the-jquerycrawlable-plugin" class="anchor" href="#description-of-the-jquerycrawlable-plugin"><span class="octicon octicon-link"></span></a>Description of the <code>jQuery.crawlable</code> plugin</h3>
 
 <p><code>jQuery("selector").crawlable(options);</code>: define an anchor in which your dynamic application will be injected when fully loaded.</p>
 
@@ -269,7 +274,7 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 <p>As you can see, we just have to respect some extra rules to make our template understandable by <code>Crawlable</code>.</p>
 
 <h3>
-<a name="quick-description-of-the-solidify-syntax" class="anchor" href="#quick-description-of-the-solidify-syntax"><span class="octicon octicon-link"></span></a>Quick description of the Solidify syntax</h3>
+<a name="quick-description-of-the-solidify-syntax" class="anchor" href="#quick-description-of-the-solidify-syntax"><span class="octicon octicon-link"></span></a>Quick description of the <code>Solidify</code> syntax</h3>
 
 <p>You can see the <a href="https://github.com/trupin/solidify"><code>Solidify</code> documentation</a> for details, but here is what you need for now:</p>
 
@@ -285,7 +290,7 @@ the <code>Solidify</code> plugin named <code>jquery.solidify.js</code>, which al
 <code>{ {[#]helperName} }</code> calls an helper (on the client and server side).</li>
 <li>
 <code>{ {fieldName} }</code> dereferences a field (on the client and server side).</li>
-</ul><p>Notice that every other <code>HandleBars</code> syntax are available, and all the syntaxes we saw which are used on the server side only, are completely ignored by <code>Solidify</code> on the client side, so it has no influence on your client side original templates.</p>
+</ul><p>Notice that every other <code>HandleBars</code> syntax are available, and all the syntaxes we saw which are used on the server side only, are completely ignored by <code>Solidify</code> on the client side, so it has no influence on your client side original templates. </p>
 
 <h2>
 <a name="what-technologies-does-it-use-and-why-" class="anchor" href="#what-technologies-does-it-use-and-why-"><span class="octicon octicon-link"></span></a>What technologies does it use and why ?</h2>
@@ -302,18 +307,22 @@ This can handle an "in memory" and a "persistent" storing. It is also totally em
 <a name="want-an-example-" class="anchor" href="#want-an-example-"><span class="octicon octicon-link"></span></a>Want an example ?</h2>
 
 <ul>
-<li>You can check the todos example on <code>github</code>: <a href="https://github.com/trupin/crawlable-todos">https://github.com/trupin/crawlable-todos</a>
+<li>You can check the todos example on <a href="https://github.com/trupin/crawlable-todos"><code>github</code></a>
 </li>
-<li>Or visit it deployed on <code>heroku</code>: <a href="http://crawlable-todos.herokuapp.com/">http://crawlable-todos.herokuapp.com/</a>
+<li>Or visit it deployed <a href="http://crawlable-todos.herokuapp.com/">here</a>
 </li>
 </ul>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/trupin">trupin</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Crawlable maintained by <a href="https://github.com/trupin">trupin</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -324,6 +333,7 @@ This can handle an "in memory" and a "persistent" storing. It is also totally em
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
