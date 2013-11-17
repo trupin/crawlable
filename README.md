@@ -240,5 +240,5 @@ This can handle an "in memory" and a "persistent" storing. It is also totally em
 
 ## Want an example ?
 
-* You can check the todos example on `github`: https://github.com/trupin/crawlable-todos
-* Or visit it deployed on `heroku`: http://crawlable-todos.herokuapp.com/
+* You can check the todos example on [`github`](https://github.com/trupin/crawlable-todos)
+* Or visit it deployed [here](http://crawlable-todos.herokuapp.com/)
