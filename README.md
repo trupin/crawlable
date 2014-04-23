@@ -16,6 +16,11 @@ You may say now, "ok, but what if I have cached some dynamic content which could
 
 `Crawlable` doesn't simply cache html, it uses a module named [`Solidify`](https://github.com/trupin/solidify) to generate a derived version of your client side templates before storing it. When a client requests the server, Crawlable will feed the cached template with some updated data before giving it to you.
 
+## Want an example ?
+
+* You can check the todos example on [`github`](https://github.com/trupin/crawlable-todos)
+* Or visit it deployed [here](http://crawlable-todos.herokuapp.com/)
+
 ## How does it works ?
 
 Before explaining how all of this can be used, you need to understand how it works a little more deeply.
@@ -237,8 +242,3 @@ By doing this way, `Crawlable` saves a lot of memory and can consider doing some
 
 `Crawlable` also uses [`nedb`](https://github.com/louischatriot/nedb) by default to store data.
 This can handle an "in memory" and a "persistent" storing. It is also totally embedded and very light.
-
-## Want an example ?
-
-* You can check the todos example on [`github`](https://github.com/trupin/crawlable-todos)
-* Or visit it deployed [here](http://crawlable-todos.herokuapp.com/)
